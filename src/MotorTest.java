@@ -1,3 +1,4 @@
+import exitThread.ExitThreadRunnable;
 import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -13,7 +14,9 @@ public class MotorTest {
         right.setSpeed(speed);
         left.forward();
         right.forward();
-        while (left.getTachoCount() < 360 * 20) {
+        Thread exitThread = new Thread(new ExitThreadRunnable());
+        exitThread.start();
+        while (left.getTachoCount() < 360 * 100) {
             balance(left, right, speed);
         }
         left.stop();
@@ -26,13 +29,16 @@ public class MotorTest {
         // TODO Auto-generated method stub
         if (left.getTachoCount() < right.getTachoCount()) {
             // right is faster than left
-            right.setSpeed((int) 0.9 * speed);
+            right.setSpeed((int) (0.9 * speed));
             left.setSpeed(speed);
+            left.forward();
+            right.forward();
         } else {
             //left is faster than right
-            left.setSpeed((int) 0.9 * speed);
+            left.setSpeed((int) (0.9 * speed));
             right.setSpeed(speed);
-
+            left.forward();
+            right.forward();
         }
     }
 
