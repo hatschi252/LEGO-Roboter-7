@@ -40,7 +40,7 @@ public class WallAvoidence {
         
         left.forward();
         right.forward();
-        while (true) {
+        for(int i = 0; i < 10000; ++i) {
             ultraSampleProvider.fetchSample(ultraSonicSampleValues, 0);
             if (ultraSonicSampleValues[0] < 0.1f) {
                 // robot is close to the wall
@@ -58,10 +58,15 @@ public class WallAvoidence {
                 right.setSpeed(standardSpeedMotors);
             }
         }
+       left.stop();
+       right.stop();
         
        // System.out.print("Press Button.");
 
-       // ultraSonicSensor.close();
+       ultraSonicSensor.close();
+       left.close();
+       right.close();
+       touchSensor.close();
        // Button.waitForAnyPress();
 
     }
