@@ -9,11 +9,12 @@ import lejos.hardware.port.SensorPort;
 
 public class LineFollowerTest {
 	
-	private static final double targetValue = (0.55+0.3)/3;
+	//private static final double targetValue = (0.55+0.3)/3;
 	
-	final static int STANDARD_SPEED = 240;
-	final static float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
+	private final static int STANDARD_SPEED = 240;
+	private final static float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
 	
+	private final static float PROP_FACTOR = 7.5f;
 	
 	public static void main(String[] args)
 	{
@@ -33,20 +34,23 @@ public class LineFollowerTest {
 		int circleCount = 0; // index for the cyclic array
 		float speedCorrection = STANDARD_SPEED / 2; //m_left.getMaxSpeed()/10;
 		
-		LineFollowControllSystemTest pController = new LineFollowControllSystemTest(0.1f);
+		LineFollowControllSystemTest pController = new LineFollowControllSystemTest(PROP_FACTOR);
 		for (;;) {
             detector.fetchSample(sampleSet, circleCount);
 
             m_left.setSpeed(pController.calcSpeedLeftMotor(TARGET_VALUE, 
-                    sampleSet[circleCount], m_left.getSpeed()));
-
-            m_right.setSpeed(pController.calcSpeedLeftMotor(TARGET_VALUE, 
-                    sampleSet[circleCount], m_right.getSpeed()));
+                    sampleSet[circleCount], STANDARD_SPEED));
+            System.out.println("l:" + m_left.getSpeed());
+            
+            m_right.setSpeed(pController.calcSpeedRightMotor(TARGET_VALUE, 
+                    sampleSet[circleCount], STANDARD_SPEED));
+            System.out.println("r:" + m_right.getSpeed());
             m_right.forward();
             m_left.forward();
             circleCount = ++circleCount % 20;
-        }
-		
+
+            Delay.msDelay(150);
+		}
 		/*
 		for(;;)//ever
 		{
