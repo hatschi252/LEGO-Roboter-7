@@ -9,7 +9,7 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
-public class WallAvoidence {
+public class WallAvoidanceTest {
 
     public static void main(String[] args) {
         
