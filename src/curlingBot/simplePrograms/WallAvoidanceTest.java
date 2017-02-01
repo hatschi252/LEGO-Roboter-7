@@ -1,4 +1,6 @@
-import exitThread.ExitThreadRunnable;
+package curlingBot.simplePrograms;
+
+import curlingBot.main.ExitThread;
 import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
@@ -9,7 +11,7 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
-public class WallAvoidence {
+public class WallAvoidanceTest {
 
     public static void main(String[] args) {
         
@@ -18,7 +20,7 @@ public class WallAvoidence {
         SampleProvider ultraSampleProvider = ultraSonicSensor.getDistanceMode();
         float[] ultraSonicSampleValues = new float[10];
 
-        // testSensor(sampleValues, ultraSample);
+        // testSensor(ultraSonicSampleValues, ultraSampleProvider);
 
         // setup motors
         int standardSpeedMotors = 240;
@@ -40,34 +42,51 @@ public class WallAvoidence {
         
         left.forward();
         right.forward();
-        while (true) {
-            ultraSampleProvider.fetchSample(ultraSonicSampleValues, 0);
-            if (ultraSonicSampleValues[0] < 0.1f) {
+        float correctionFactor = 0.50f;
+        int i = 0;
+        for(;;) { // infinity loop
+            
+            ultraSampleProvider.fetchSample(ultraSonicSampleValues, i % ultraSonicSampleValues.length);
+            System.out.println(ultraSonicSampleValues[i % ultraSonicSampleValues.length]);
+            if (ultraSonicSampleValues[i % ultraSonicSampleValues.length] < 0.1f) {
                 // robot is close to the wall
-                right.setSpeed(standardSpeedMotors * 0.9f);
+                right.setSpeed((int)((float)standardSpeedMotors * correctionFactor));
                 left.setSpeed(standardSpeedMotors);
-            } else if (ultraSonicSampleValues[0] < 0.23f) {
+                left.forward();
+                right.forward();
+            } else if (ultraSonicSampleValues[i % ultraSonicSampleValues.length] < 0.15f) {
                 // the distance to the wall is acceptable
                 right.setSpeed(standardSpeedMotors);
                 left.setSpeed(standardSpeedMotors);
-                
+                left.forward();
+                right.forward();
             } else {
                 // robot is too far away from the wall
 
-                left.setSpeed(standardSpeedMotors * 0.9f);
+                left.setSpeed((int)((float)standardSpeedMotors * correctionFactor));
                 right.setSpeed(standardSpeedMotors);
+                left.forward();
+                right.forward();
             }
+            Delay.msDelay(50);
+            i = ++i % ultraSonicSampleValues.length;
         }
+       /*
+        left.stop();
+       right.stop();
         
        // System.out.print("Press Button.");
 
-       // ultraSonicSensor.close();
+       ultraSonicSensor.close();
+       left.close();
+       right.close();
+       touchSensor.close();
        // Button.waitForAnyPress();
-
+*/
     }
 
     private static void startExitThread() {
-        Thread exitThread = new Thread(new ExitThreadRunnable());
+        Thread exitThread = new ExitThread();
         exitThread.start();
     }
 
