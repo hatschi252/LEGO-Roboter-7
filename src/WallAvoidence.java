@@ -1,3 +1,4 @@
+import exitThread.ExitThreadRunnable;
 import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
@@ -11,10 +12,11 @@ import lejos.utility.Delay;
 public class WallAvoidence {
 
     public static void main(String[] args) {
+        
         // setup ultrasonic sensor
         EV3UltrasonicSensor ultraSonicSensor = new EV3UltrasonicSensor(SensorPort.S1);
         SampleProvider ultraSampleProvider = ultraSonicSensor.getDistanceMode();
-        float[] sampleValues = new float[10];
+        float[] ultraSonicSampleValues = new float[10];
 
         // testSensor(sampleValues, ultraSample);
 
@@ -31,23 +33,54 @@ public class WallAvoidence {
         float[] touchOutput = new float[1];
         touchProvider.fetchSample(touchOutput, 0);
 
-        //Loop until robot is positioned correctly
-        initPosition(ultraSampleProvider, sampleValues);
+        // Loop until robot is positioned correctly
+        initPosition(ultraSampleProvider, ultraSonicSampleValues);
+        // call startExitThread after initPosition!
+        startExitThread(); // if button is pressed programm ends
         
-        
-        
-        
-        
-        System.out.print("Press Button.");
+        left.forward();
+        right.forward();
+        while (true) {
+            ultraSampleProvider.fetchSample(ultraSonicSampleValues, 0);
+            if (ultraSonicSampleValues[0] < 0.1f) {
+                // robot is close to the wall
+                right.setSpeed(standardSpeedMotors * 0.9f);
+                left.setSpeed(standardSpeedMotors);
+            } else if (ultraSonicSampleValues[0] < 0.23f) {
+                // the distance to the wall is acceptable
+                right.setSpeed(standardSpeedMotors);
+                left.setSpeed(standardSpeedMotors);
+                
+            } else {
+                // robot is too far away from the wall
 
-        ultraSonicSensor.close();
-        Button.waitForAnyPress();
+                left.setSpeed(standardSpeedMotors * 0.9f);
+                right.setSpeed(standardSpeedMotors);
+            }
+        }
+        
+       // System.out.print("Press Button.");
+
+       // ultraSonicSensor.close();
+       // Button.waitForAnyPress();
 
     }
 
+    private static void startExitThread() {
+        Thread exitThread = new Thread(new ExitThreadRunnable());
+        exitThread.start();
+    }
+
     private static void initPosition(SampleProvider ultraSampleProvider, float[] sampleValues) {
-        // TODO Auto-generated method stub
-        
+        ultraSampleProvider.fetchSample(sampleValues, 0); // get distance in
+                                                          // sam..[0]
+        while (sampleValues[0] > 0.2f) {
+            System.out.print("Too far away from wall. Press Button.");
+            Button.waitForAnyPress();
+            ultraSampleProvider.fetchSample(sampleValues, 0); // get distance in
+                                                              // sam..[0]
+        }
+
     }
 
     public static void testSensor(float[] sampleValues, SampleProvider ultraSampleProvider) {
