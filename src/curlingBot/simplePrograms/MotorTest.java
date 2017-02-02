@@ -28,7 +28,7 @@ public class MotorTest {
     }
 
     private static void balance(EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right, int speed) {
-        // TODO Auto-generated method stub
+
         if (left.getTachoCount() < right.getTachoCount()) {
             // right is faster than left
             right.setSpeed((int) (0.9 * speed));
@@ -36,7 +36,7 @@ public class MotorTest {
             left.forward();
             right.forward();
         } else {
-            //left is faster than right
+            // left is faster than right
             left.setSpeed((int) (0.9 * speed));
             right.setSpeed(speed);
             left.forward();

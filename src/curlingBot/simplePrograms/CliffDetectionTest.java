@@ -9,9 +9,12 @@ import lejos.robotics.SampleProvider;
 
 public class CliffDetectionTest {
 
-    final static int standardSpeedMotors = 240;
-    final static int sizeOfSampleArray = 10;
+    private final static int standardSpeedMotors = 150;
+    private final static int sizeOfSampleArray = 10;
 
+    private final static float CORRECTIOM_FACTOR_TO_RIGHT_TURN = 0.9f;
+    private final static float CORRECTIOM_FACTOR_TO_LEFT_TURN = 0.8f;
+    
     public static void main(String[] args) {
         // setup motors
         EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
@@ -29,18 +32,24 @@ public class CliffDetectionTest {
         exitThread.start();
 
         // Behavior loop
+        // TODO add gyro sensor 
         int i = 0;
         while (true) {
             //get value at position i
             sampleProviderUltraSonic.fetchSample(sampleValuesUltrasonic, i); 
             if (sampleValuesUltrasonic[i] < 0.1f) {
                 //robot and ultrasonic sensor are on the bridge 
-                //TODO
+                //turn right slowly
+                right.setSpeed(standardSpeedMotors);
+                left.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_RIGHT_TURN);
             } else {
                 // ultrasonic sensor is over the cliff
-                //TODO 
+                // turn left 
+                right.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_LEFT_TURN);
+                left.setSpeed(standardSpeedMotors);
             }
-            
+            left.forward();
+            right.forward();
             i = ++i % sizeOfSampleArray; // to use the sampleValues.. array cyclic
         }
     }
