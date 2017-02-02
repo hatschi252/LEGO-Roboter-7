@@ -12,6 +12,10 @@ public class CliffDetectionTest {
     final static int standardSpeedMotors = 240;
     final static int sizeOfSampleArray = 10;
 
+
+    private final static float CORRECTIOM_FACTOR_TO_RIGHT_TURN = 0.8f;
+    private final static float CORRECTIOM_FACTOR_TO_LEFT_TURN = 0.9f;
+    
     public static void main(String[] args) {
         // setup motors
         EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
