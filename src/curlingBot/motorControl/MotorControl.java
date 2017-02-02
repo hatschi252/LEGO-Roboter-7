@@ -1,5 +1,6 @@
 package curlingBot.motorControl;
 
+import curlingBot.main.Globals;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -27,6 +28,8 @@ public final class MotorControl extends Thread {
 		// TODO: take care that the ultrasonic sensor is moved up for
 		// initialization
 		isUltrasonicUp = true;
+		
+		desiredMoveState = new MoveState(0, 0);
 	}
 
 	@Override
@@ -53,13 +56,11 @@ public final class MotorControl extends Thread {
 				rightMotor.setAcceleration(0);
 			}
 			
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException ex) {
-				System.out.println(ex.getMessage());
-			}
+			Globals.sleep(30);
 		}
 	}
+
+
 
 	public static MotorControl getInstance() {
 		if (motorControlInstance == null) {

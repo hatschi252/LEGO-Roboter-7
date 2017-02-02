@@ -23,4 +23,11 @@ public final class Globals {
 			}
 		}
 	}
+	public static void sleep(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 }
