@@ -15,16 +15,6 @@ public class Program {
 		Globals.motorControl = MotorControl.getInstance();
 		Globals.motorControl.start();
 		
-		Globals.motorControl.moveUltrasonicDown();
-		while ((Button.waitForAnyEvent() & Button.ID_ENTER) == 0) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException ex) {
-				System.out.println(ex.getMessage());
-			}
-		}
-		Globals.motorControl.moveUltrasonicUp();
-		
 //		Globals.sensorBuffer = SensorBuffer.getInstance();
 //		Globals.sensorBuffer.start();
 //		

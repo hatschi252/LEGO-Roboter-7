@@ -3,6 +3,7 @@ package curlingBot.main;
 import curlingBot.logic.Logic;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
+import lejos.hardware.Button;
 
 public final class Globals {
 	public static Logic logic;
@@ -11,4 +12,15 @@ public final class Globals {
 	public static ExitThread exitThread;
 	
 	private Globals() {}
+	
+
+	public static void waitForKey(int key) {
+		while ((Button.waitForAnyEvent() & key) == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
+	}
 }

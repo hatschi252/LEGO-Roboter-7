@@ -16,4 +16,12 @@ public class MoveState {
 	public float getSteer() {
 		return steer;
 	}
+	
+	public float getLeftVelocity() {
+		return velocity + steer;
+	}
+	
+	public float getRightVelocity() {
+		return velocity - steer;
+	}
 }
