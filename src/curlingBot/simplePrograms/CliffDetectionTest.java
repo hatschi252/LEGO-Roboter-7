@@ -32,6 +32,7 @@ public class CliffDetectionTest {
         exitThread.start();
 
         // Behavior loop
+        // TODO add gyro sensor 
         int i = 0;
         while (true) {
             //get value at position i
