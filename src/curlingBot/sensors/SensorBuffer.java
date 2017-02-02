@@ -2,6 +2,9 @@ package curlingBot.sensors;
 
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
 /**
@@ -61,10 +64,28 @@ public final class SensorBuffer extends Thread {
      */
     private final Port GYRO_SENSOR = SensorPort.S4;
     
+    /**
+     * EV3 ultrasonic sensor instance
+     */
+    private EV3UltrasonicSensor ultrasonicSensor;
+    
+    /**
+     * EV3 color sensor instance
+     */
+    private EV3ColorSensor colorSensor;
+    
+    /**
+     * EV3 touch sensor instance
+     */
+    private EV3TouchSensor touchSensor;
+    
+    /**
+     * EV3 gyro sensor instance
+     */
+    private EV3GyroSensor gyroSensor;
     
     private SensorBuffer() {
         //TODO init sensors
-        EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
         
     }
 
@@ -78,5 +99,9 @@ public final class SensorBuffer extends Thread {
     @Override
     public void run() {
         // TODO implement 
+    	ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
+        colorSensor = new EV3ColorSensor(COLOR_SENSOR);
+        touchSensor = new EV3TouchSensor(TOUCH_SENSOR);
+        gyroSensor = new EV3GyroSensor(GYRO_SENSOR);
     }
 }
