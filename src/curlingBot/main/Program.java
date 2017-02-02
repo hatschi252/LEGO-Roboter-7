@@ -4,6 +4,7 @@ import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
+import lejos.hardware.Button;
 
 public class Program {
 	public static void main(String[] args) {
@@ -14,12 +15,22 @@ public class Program {
 		Globals.motorControl = MotorControl.getInstance();
 		Globals.motorControl.start();
 		
-		Globals.sensorBuffer = SensorBuffer.getInstance();
-		Globals.sensorBuffer.start();
+		Globals.motorControl.moveUltrasonicDown();
+		while ((Button.waitForAnyEvent() & Button.ID_ENTER) == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
+		Globals.motorControl.moveUltrasonicUp();
 		
-		Globals.logic = Logic.getInstance();
-		//Add the moveModes in the order they are appearing in the parkour
-		Globals.logic.addMoveMode(new LineFollowerMode());
-		Globals.logic.start();		
+//		Globals.sensorBuffer = SensorBuffer.getInstance();
+//		Globals.sensorBuffer.start();
+//		
+//		Globals.logic = Logic.getInstance();
+//		//Add the moveModes in the order they are appearing in the parkour
+//		Globals.logic.addMoveMode(new LineFollowerMode());
+//		Globals.logic.start();		
 	}
 }

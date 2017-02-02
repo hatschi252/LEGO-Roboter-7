@@ -1,12 +1,14 @@
 package curlingBot.motorControl;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 
 public final class MotorControl extends Thread {
 	public static final Port MOTORPORT_LEFT = MotorPort.A;
 	public static final Port MOTORPORT_RIGHT = MotorPort.B;
+	public static final Port MOTORPORT_ULTRASONIC = MotorPort.D;
 	
 	private static MotorControl motorControlInstance;
 	
@@ -14,10 +16,15 @@ public final class MotorControl extends Thread {
 	private float currentMaximumAcc;
 	private EV3LargeRegulatedMotor leftMotor;
 	private EV3LargeRegulatedMotor rightMotor;
+	private EV3MediumRegulatedMotor ultrasonicMotor;
+	private boolean isUltrasonicUp;
 	
 	private MotorControl() {
 		 leftMotor = new EV3LargeRegulatedMotor(MOTORPORT_LEFT);
 		 rightMotor = new EV3LargeRegulatedMotor(MOTORPORT_RIGHT);
+		 ultrasonicMotor = new EV3MediumRegulatedMotor(MOTORPORT_ULTRASONIC);
+		 //TODO: take care that the ultrasonic sensor is moved up for initialization
+		 isUltrasonicUp = true;
 	}
 	
 	@Override
@@ -25,6 +32,11 @@ public final class MotorControl extends Thread {
 		while (true) {
 			//Ist eine Geschwindigkeit wirklich jemals gleich der desiredVelocity?
 			//Es handelt sich um floats - was wäre ein passendes MIN_DELTA?
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException ex) {
+				System.out.println(ex.getMessage());
+			}
 		}
 	}
 
@@ -60,6 +72,22 @@ public final class MotorControl extends Thread {
 	 */
 	public MoveState getMoveState() {
 		return desiredMoveState;
+	}
+	
+	public void moveUltrasonicDown() {
+		if (!isUltrasonicUp) {
+			return;
+		}
+		ultrasonicMotor.rotate(75, false);
+		isUltrasonicUp = false;
+	}
+	
+	public void moveUltrasonicUp() {
+		if (isUltrasonicUp) {
+			return;
+		}
+		ultrasonicMotor.rotate(-75, false);	
+		isUltrasonicUp = true;
 	}
 	
 	/**
