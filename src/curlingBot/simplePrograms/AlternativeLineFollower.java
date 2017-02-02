@@ -13,7 +13,7 @@ public class AlternativeLineFollower {
 	private static final float TARGET_VALUE = (0.6f + 0.3f) / 2f;
 	private static final int CORRECTION_SPEED = 70;
 	private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;
-	private static final int CURVE_DEGREE = 360 * 1;
+	private static final int CURVE_DEGREE = 360 * 3/2;
 
 	public static void main(String[] args) {
 		ExitThread exit = new ExitThread();
