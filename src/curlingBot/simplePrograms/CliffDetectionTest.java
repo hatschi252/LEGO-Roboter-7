@@ -9,11 +9,11 @@ import lejos.robotics.SampleProvider;
 
 public class CliffDetectionTest {
 
-    private final static int standardSpeedMotors = 150;
+    private final static int standardSpeedMotors = 200;
     private final static int sizeOfSampleArray = 10;
 
-    private final static float CORRECTIOM_FACTOR_TO_RIGHT_TURN = 0.8f;
-    private final static float CORRECTIOM_FACTOR_TO_LEFT_TURN = 0.9f;
+    private final static float CORRECTIOM_FACTOR_TO_RIGHT_TURN = 0.6f; // must be smaller than 1
+    private final static float CORRECTIOM_FACTOR_TO_LEFT_TURN = 0.7f; // must be smaller than 1
     
     public static void main(String[] args) {
         // setup motors
@@ -39,13 +39,13 @@ public class CliffDetectionTest {
             sampleProviderUltraSonic.fetchSample(sampleValuesUltrasonic, i); 
             if (sampleValuesUltrasonic[i] < 0.1f) {
                 //robot and ultrasonic sensor are on the bridge 
-                //turn right slowly
+                //turn left 
                 right.setSpeed(standardSpeedMotors);
-                left.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_RIGHT_TURN);
+                left.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_LEFT_TURN);
             } else {
                 // ultrasonic sensor is over the cliff
-                // turn left 
-                right.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_LEFT_TURN);
+                // turn right
+                right.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_RIGHT_TURN);
                 left.setSpeed(standardSpeedMotors);
             }
             left.forward();
