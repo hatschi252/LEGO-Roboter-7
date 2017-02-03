@@ -107,7 +107,7 @@ public final class SensorBuffer extends Thread {
             }
             synchronized (gyroLock) {
                 if (gyroSensorActive) {
-                    getSample(gyroSensor, gyroBuffer);
+                    getSample(gyroProvider, gyroBuffer);
                 }
             }
 
