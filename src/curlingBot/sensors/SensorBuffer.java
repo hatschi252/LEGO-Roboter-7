@@ -50,6 +50,13 @@ public final class SensorBuffer extends Thread {
     private CyclicBuffer colorBuffer;
     private CyclicBuffer touchBuffer;
     private CyclicBuffer gyroBuffer;
+    // locks
+    private Object ultraSonicLock = new Object();
+    private Object colorLock = new Object();
+    private Object touchLock = new Object();
+    private Object gyroLock = new Object();
+    // true if touch detected something since last call
+    private boolean pressedSinceLastCallBool = false;
 
     private SensorBuffer() {
         ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
@@ -80,18 +87,30 @@ public final class SensorBuffer extends Thread {
     public void run() {
         // TODO implement
         for (;;) { // ever
-            if (ultraSonicSensorActive) {
-                getSample(ultrasonicProvider, ultrasonicBuffer);
+            synchronized (ultraSonicLock) {
+                if (ultraSonicSensorActive) {
+                    getSample(ultrasonicProvider, ultrasonicBuffer);
+                }
             }
-            if (colorSensorActive) {
-                getSample(colorProvider, colorBuffer);
+            synchronized (colorLock) {
+                if (colorSensorActive) {
+                    getSample(colorProvider, colorBuffer);
+                }
             }
-            if (touchSensorActive) {
-                getSample(touchProvider, touchBuffer);
+            synchronized (touchLock) {
+                if (touchSensorActive) {
+                    getSample(touchProvider, touchBuffer);
+                    if (touchBuffer.getBuffer()[touchBuffer.getIndexOfLastInsertedElement()] == 1.0f) {
+                        this.pressedSinceLastCallBool = true;
+                    }
+                }
             }
-            if (gyroSensorActive) {
-                getSample(gyroSensor, gyroBuffer);
+            synchronized (gyroLock) {
+                if (gyroSensorActive) {
+                    getSample(gyroSensor, gyroBuffer);
+                }
             }
+
         }
 
     }
@@ -100,6 +119,43 @@ public final class SensorBuffer extends Thread {
         cBuffer.incrementIndex();
         sampleProvider.fetchSample(cBuffer.getBuffer(), cBuffer.getIndexOfLastInsertedElement());
 
+    }
+
+    public float getLastMessurementUltraSensor() {
+        synchronized (ultraSonicLock) {
+            return ultrasonicBuffer.getBuffer()[ultrasonicBuffer.getIndexOfLastInsertedElement()];
+        }
+    }
+
+    public float getLastMessurementColor() {
+        synchronized (colorLock) {
+            return colorBuffer.getBuffer()[colorBuffer.getIndexOfLastInsertedElement()];
+        }
+    }
+
+    public boolean touchPressedSinceLastCall() {
+        synchronized (touchLock) {
+            if (pressedSinceLastCallBool) {
+                pressedSinceLastCallBool = false;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public float[] getLastMessurementGyro() {
+        synchronized (gyroLock) {
+            float[] resultArray = new float[2];
+            resultArray[0] = gyroBuffer.getBuffer()[gyroBuffer.getIndexOfLastInsertedElement() - 1]; // second
+                                                                                                     // last
+                                                                                                     // element
+                                                                                                     // is
+                                                                                                     // needed
+
+            resultArray[1] = gyroBuffer.getBuffer()[gyroBuffer.getIndexOfLastInsertedElement()];
+            return resultArray;
+        }
     }
 
     public boolean isTouchSensorActive() {
