@@ -9,15 +9,15 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Stopwatch;
 
 public class AlternativeLineFollower {
-    private static final int STANDART_SPEED = 100;
-    private static final float TARGET_VALUE = (0.6f + 0.3f) / 2f;
+    private static final int STANDART_SPEED = 50;
+    private static final float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
     private static final int CORRECTION_SPEED = 70;
     private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;
     private static final int CURVE_DEGREE = 360 * 3 / 2;
-    private static final int timeForSearch = 1500;
+    private static final int timeForSearch = 15500;
     // motor classes
     private static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-    private static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+    private static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.B);
     // sensor classes
     private static EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
 
@@ -41,27 +41,31 @@ public class AlternativeLineFollower {
 
         stopwatch.reset();
         followLine();
-        // loop(buffer, left, right, detektor);
+        // loop(buffer, left, right, detector);
     }
 
     private static void followLine() {
-        // the robot is trying to stay on the left side of the stripe
-        // is robot on the line if not start timer and
-        if (isNearToLine()) {
-            // robot is over the line
-            // drive left
-            leftMotor.setSpeed(STANDART_SPEED / 2);
-            rightMotor.setSpeed(STANDART_SPEED);
-            stopwatch.reset();
-        } else {
-            leftMotor.setSpeed(STANDART_SPEED);
-            rightMotor.setSpeed(STANDART_SPEED / 2);
-        }
-        leftMotor.forward();
-        rightMotor.forward();
-        if (stopwatch.elapsed() > 1000) {
-            // we may lost the line -> search for it
-            searchLine();
+        while (true) {
+            // the robot is trying to stay on the left side of the stripe
+            // is robot on the line if not start timer and
+            if (isNearToLine()) {
+                // robot is over the line
+                // drive left
+                leftMotor.setSpeed(STANDART_SPEED / 2);
+                rightMotor.setSpeed(STANDART_SPEED);
+                stopwatch.reset();
+            } else {
+                // robot is left from the line
+                // drive right
+                leftMotor.setSpeed(STANDART_SPEED);
+                rightMotor.setSpeed(STANDART_SPEED / 2);
+            }
+            leftMotor.forward();
+            rightMotor.forward();
+            if (stopwatch.elapsed() > 3000) {
+                // we may lost the line -> search for it
+                searchLine();
+            }
         }
     }
 
@@ -82,16 +86,26 @@ public class AlternativeLineFollower {
                 return;
             }
         }
+        leftMotor.stop();
+        // turn robot back
+        leftMotor.backward();
+        stopwatch.reset();
+        while (stopwatch.elapsed() < timeForSearch) {
+
+        }
         stopwatch.reset();
         // turn back and to the left
         rightMotor.setSpeed(STANDART_SPEED);
-        while (stopwatch.elapsed() < 2 * timeForSearch) {
+        rightMotor.forward();
+        while (stopwatch.elapsed() < timeForSearch) {
             detector.fetchSample(buffer, 0);
             if (buffer[0] > TARGET_VALUE) {
                 rightMotor.stop();
                 stopwatch.reset();
+                return;
             }
         }
+        // here the line is lost completely
 
     }
 
