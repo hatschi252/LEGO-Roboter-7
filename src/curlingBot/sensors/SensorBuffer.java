@@ -6,6 +6,7 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.robotics.SampleProvider;
 
 /**
  * SensorBuffer collects sensor data automatically if the sensor is set active.
@@ -39,6 +40,13 @@ public final class SensorBuffer extends Thread {
     private EV3ColorSensor colorSensor;
     private EV3TouchSensor touchSensor;
     private EV3GyroSensor gyroSensor;
+    // sample provider
+    private SampleProvider ultrasonicProvider;
+    private SampleProvider colorProvider;
+    private SampleProvider touchProvider;
+    private SampleProvider gyroProvider;
+    //TODO buffers
+    
 
     private SensorBuffer() {
         ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
@@ -57,6 +65,20 @@ public final class SensorBuffer extends Thread {
     @Override
     public void run() {
         // TODO implement
+    	for(;;) { //ever
+    		if (ultraSonicSensorActive) {
+    			//TODO implement fetch
+			}
+    		if (colorSensorActive) {
+				//TODO implement fetch
+			}
+    		if (touchSensorActive) {
+				//TODO implement fetch
+			}
+    		if (gyroSensorActive) {
+				//TODO implement fetch
+			}
+    	}
 
     }
 
