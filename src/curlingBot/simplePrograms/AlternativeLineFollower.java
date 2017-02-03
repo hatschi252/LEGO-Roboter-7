@@ -9,56 +9,56 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Stopwatch;
 
 public class AlternativeLineFollower {
-	private static final int STANDART_SPEED = 100;
-	private static final float TARGET_VALUE = (0.6f + 0.3f) / 2f;
-	private static final int CORRECTION_SPEED = 70;
-	private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;
-	private static final int CURVE_DEGREE = 360 * 3/2;
-
-	// motor classes
-	private static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+    private static final int STANDART_SPEED = 100;
+    private static final float TARGET_VALUE = (0.6f + 0.3f) / 2f;
+    private static final int CORRECTION_SPEED = 70;
+    private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;
+    private static final int CURVE_DEGREE = 360 * 3 / 2;
+    private static final int timeForSearch = 1500;
+    // motor classes
+    private static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
     private static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-	// sensor classes
+    // sensor classes
     private static EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
-    
-    //sample providers
+
+    // sample providers
     private static SampleProvider detector = colorSensor.getRedMode();
-    
-    //buffers
+
+    // buffers
     private static float[] buffer = new float[10];
-    
-    //stopwatch
+
+    // stopwatch
     private static Stopwatch stopwatch = new Stopwatch();
-    
-	public static void main(String[] args) {
-		ExitThread exit = new ExitThread();
-		exit.start();
 
-		leftMotor.setSpeed(STANDART_SPEED);
-		rightMotor.setSpeed(STANDART_SPEED);
-		leftMotor.forward();
-		rightMotor.forward();
-		
-		stopwatch.reset();
-		followLine();
-		//loop(buffer, left, right, detektor);
-	}
+    public static void main(String[] args) {
+        ExitThread exit = new ExitThread();
+        exit.start();
 
-	private static void followLine() {
-	    //the robot is trying to stay on the left side of the stripe
+        leftMotor.setSpeed(STANDART_SPEED);
+        rightMotor.setSpeed(STANDART_SPEED);
+        leftMotor.forward();
+        rightMotor.forward();
+
+        stopwatch.reset();
+        followLine();
+        // loop(buffer, left, right, detektor);
+    }
+
+    private static void followLine() {
+        // the robot is trying to stay on the left side of the stripe
         // is robot on the line if not start timer and
-	    if (isNearToLine()) {
+        if (isNearToLine()) {
             // robot is over the line
-	        // drive left
-	        leftMotor.setSpeed(STANDART_SPEED / 2);
-	        rightMotor.setSpeed(STANDART_SPEED);
-	        stopwatch.reset();
+            // drive left
+            leftMotor.setSpeed(STANDART_SPEED / 2);
+            rightMotor.setSpeed(STANDART_SPEED);
+            stopwatch.reset();
         } else {
             leftMotor.setSpeed(STANDART_SPEED);
             rightMotor.setSpeed(STANDART_SPEED / 2);
         }
-	    leftMotor.forward();
-	    rightMotor.forward();
+        leftMotor.forward();
+        rightMotor.forward();
         if (stopwatch.elapsed() > 1000) {
             // we may lost the line -> search for it
             searchLine();
@@ -73,10 +73,26 @@ public class AlternativeLineFollower {
         // turn to the right
         leftMotor.setSpeed(STANDART_SPEED);
         leftMotor.forward();
-        while (stopwatch.elapsed() < 1500) {
-            
+
+        while (stopwatch.elapsed() < timeForSearch) {
+            detector.fetchSample(buffer, 0);
+            if (buffer[0] > TARGET_VALUE) {
+                leftMotor.stop();
+                stopwatch.reset();
+                return;
+            }
         }
-        
+        stopwatch.reset();
+        // turn back and to the left
+        rightMotor.setSpeed(STANDART_SPEED);
+        while (stopwatch.elapsed() < 2 * timeForSearch) {
+            detector.fetchSample(buffer, 0);
+            if (buffer[0] > TARGET_VALUE) {
+                rightMotor.stop();
+                stopwatch.reset();
+            }
+        }
+
     }
 
     private static boolean isNearToLine() {
@@ -88,77 +104,77 @@ public class AlternativeLineFollower {
         } else {
             return true;
         }
-        
+
     }
 
     private static void loop(float[] buffer, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
-			SampleProvider detektor) {
-		Stopwatch stopwatch = new Stopwatch();
-		int cyclicCount = 0;
-		for (;;) { // ever
-			detektor.fetchSample(buffer, cyclicCount);
-			if (buffer[cyclicCount] >= TARGET_VALUE * 1.05f) {
-				left.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
-				right.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
-			} else if (buffer[cyclicCount] < TARGET_VALUE * 0.95f) {
-				left.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
-				right.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
-			} else {
-				left.setSpeed(STANDART_SPEED);
-				right.setSpeed(STANDART_SPEED);
-			}
-			left.forward();
-			right.forward();
-			
-			if (buffer[cyclicCount] > 0.3) {
-				stopwatch.reset();
-			}
+            SampleProvider detektor) {
+        Stopwatch stopwatch = new Stopwatch();
+        int cyclicCount = 0;
+        for (;;) { // ever
+            detektor.fetchSample(buffer, cyclicCount);
+            if (buffer[cyclicCount] >= TARGET_VALUE * 1.05f) {
+                left.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
+                right.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
+            } else if (buffer[cyclicCount] < TARGET_VALUE * 0.95f) {
+                left.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
+                right.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
+            } else {
+                left.setSpeed(STANDART_SPEED);
+                right.setSpeed(STANDART_SPEED);
+            }
+            left.forward();
+            right.forward();
 
-			ifLineLostSearch(stopwatch, left, right, detektor, cyclicCount, buffer);
-			cyclicCount = ++cyclicCount % 10;
-		}
+            if (buffer[cyclicCount] > 0.3) {
+                stopwatch.reset();
+            }
 
-	}
+            ifLineLostSearch(stopwatch, left, right, detektor, cyclicCount, buffer);
+            cyclicCount = ++cyclicCount % 10;
+        }
 
-	private static void ifLineLostSearch(Stopwatch stopwatch, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
-			SampleProvider detektor, int cyclicCount, float[] buffer) {
-		// TODO Auto-generated method stub
-		int timePassed = stopwatch.elapsed();
-		if (timePassed > MAX_ALLOWED_TIME_LINE_LOST) {
-			// line is lost. find it
-			// stop motor
-			left.stop();
-			right.stop();
-			// turn to the right and look if line detected
-			left.setSpeed(STANDART_SPEED);
-			left.rotate(CURVE_DEGREE, true);
-			boolean lineFound = false;
-			while (left.getSpeed() > 1) {
-				detektor.fetchSample(buffer, cyclicCount);
-				if (buffer[cyclicCount] > 0.3) {
-					left.stop();
-					lineFound = true;
-				}
-			}
-			if (!lineFound) { // line not found on right side
-				left.rotate(-CURVE_DEGREE);
-				right.setSpeed(STANDART_SPEED);
-				right.rotate(CURVE_DEGREE, true);
-				detektor.fetchSample(buffer, cyclicCount);
-				if (buffer[cyclicCount] > 0.3) {
-					right.stop();
-					lineFound = true;
-				}
-			}
-			if (!lineFound) {
-				//System.exit(1);
-				// TODO add handle
-			    
-			}
-			stopwatch.reset();
-			// turn to the left until line detected
-		}
+    }
 
-	}
+    private static void ifLineLostSearch(Stopwatch stopwatch, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
+            SampleProvider detektor, int cyclicCount, float[] buffer) {
+        // TODO Auto-generated method stub
+        int timePassed = stopwatch.elapsed();
+        if (timePassed > MAX_ALLOWED_TIME_LINE_LOST) {
+            // line is lost. find it
+            // stop motor
+            left.stop();
+            right.stop();
+            // turn to the right and look if line detected
+            left.setSpeed(STANDART_SPEED);
+            left.rotate(CURVE_DEGREE, true);
+            boolean lineFound = false;
+            while (left.getSpeed() > 1) {
+                detektor.fetchSample(buffer, cyclicCount);
+                if (buffer[cyclicCount] > 0.3) {
+                    left.stop();
+                    lineFound = true;
+                }
+            }
+            if (!lineFound) { // line not found on right side
+                left.rotate(-CURVE_DEGREE);
+                right.setSpeed(STANDART_SPEED);
+                right.rotate(CURVE_DEGREE, true);
+                detektor.fetchSample(buffer, cyclicCount);
+                if (buffer[cyclicCount] > 0.3) {
+                    right.stop();
+                    lineFound = true;
+                }
+            }
+            if (!lineFound) {
+                // System.exit(1);
+                // TODO add handle
+
+            }
+            stopwatch.reset();
+            // turn to the left until line detected
+        }
+
+    }
 
 }
