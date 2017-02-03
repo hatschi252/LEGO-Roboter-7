@@ -9,32 +9,89 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Stopwatch;
 
 public class AlternativeLineFollower {
-	private static final int STANDART_SPEED = 400;
+	private static final int STANDART_SPEED = 100;
 	private static final float TARGET_VALUE = (0.6f + 0.3f) / 2f;
 	private static final int CORRECTION_SPEED = 70;
 	private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;
 	private static final int CURVE_DEGREE = 360 * 3/2;
 
+	// motor classes
+	private static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+    private static EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+	// sensor classes
+    private static EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
+    
+    //sample providers
+    private static SampleProvider detector = colorSensor.getRedMode();
+    
+    //buffers
+    private static float[] buffer = new float[10];
+    
+    //stopwatch
+    private static Stopwatch stopwatch = new Stopwatch();
+    
 	public static void main(String[] args) {
 		ExitThread exit = new ExitThread();
 		exit.start();
 
-		EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
-		SampleProvider detektor = colorSensor.getRedMode();
-		float[] buffer = new float[10];
-
-		EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
-		EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.B);
-		left.setSpeed(STANDART_SPEED);
-		right.setSpeed(STANDART_SPEED);
-		left.forward();
-		right.forward();
-
-		loop(buffer, left, right, detektor);
-
+		leftMotor.setSpeed(STANDART_SPEED);
+		rightMotor.setSpeed(STANDART_SPEED);
+		leftMotor.forward();
+		rightMotor.forward();
+		
+		stopwatch.reset();
+		followLine();
+		//loop(buffer, left, right, detektor);
 	}
 
-	private static void loop(float[] buffer, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
+	private static void followLine() {
+	    //the robot is trying to stay on the left side of the stripe
+        // is robot on the line if not start timer and
+	    if (isNearToLine()) {
+            // robot is over the line
+	        // drive left
+	        leftMotor.setSpeed(STANDART_SPEED / 2);
+	        rightMotor.setSpeed(STANDART_SPEED);
+	        stopwatch.reset();
+        } else {
+            leftMotor.setSpeed(STANDART_SPEED);
+            rightMotor.setSpeed(STANDART_SPEED / 2);
+        }
+	    leftMotor.forward();
+	    rightMotor.forward();
+        if (stopwatch.elapsed() > 1000) {
+            // we may lost the line -> search for it
+            searchLine();
+        }
+    }
+
+    private static void searchLine() {
+        stopwatch.reset();
+        // stop motors
+        leftMotor.stop();
+        rightMotor.stop();
+        // turn to the right
+        leftMotor.setSpeed(STANDART_SPEED);
+        leftMotor.forward();
+        while (stopwatch.elapsed() < 1500) {
+            
+        }
+        
+    }
+
+    private static boolean isNearToLine() {
+        detector.fetchSample(buffer, 0);
+        float detectedValue = buffer[0];
+        if (detectedValue < TARGET_VALUE) {
+            // robot is not on the line or near it
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+
+    private static void loop(float[] buffer, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
 			SampleProvider detektor) {
 		Stopwatch stopwatch = new Stopwatch();
 		int cyclicCount = 0;
@@ -94,7 +151,9 @@ public class AlternativeLineFollower {
 				}
 			}
 			if (!lineFound) {
-				System.exit(1);
+				//System.exit(1);
+				// TODO add handle
+			    
 			}
 			stopwatch.reset();
 			// turn to the left until line detected
