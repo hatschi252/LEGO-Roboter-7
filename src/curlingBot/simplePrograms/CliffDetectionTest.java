@@ -49,6 +49,8 @@ public class CliffDetectionTest {
                 right.setSpeed(standardSpeedMotors * CORRECTIOM_FACTOR_TO_RIGHT_TURN);
                 left.setSpeed(standardSpeedMotors);
             }
+            left.forward();
+            right.forward();
             
             i = ++i % sizeOfSampleArray; // to use the sampleValues.. array cyclic
         }
