@@ -19,75 +19,32 @@ public final class SensorBuffer extends Thread {
      * Singleton instance
      */
     private static SensorBuffer sensorBufferInstance;
-
-    /**
-     * bool is ture if data from the sensor will be collected
-     */
+    // sensor active boolean
     private boolean touchSensorActive = false;
-
-    /**
-     * bool is ture if data from the sensor will be collected
-     */
     private boolean gyroSensorActive = false;
-
-    /**
-     * bool is ture if data from the sensor will be collected
-     */
     private boolean ultraSonicSensorActive = false;
-
-    /**
-     * bool is ture if data from the sensor will be collected
-     */
     private boolean colorSensorActive = false;
 
     /**
      * size of all buffers
      */
     private final int sizeOfBuffers = 10;
-
-    /**
-     * Port of the ultrasonic sensor
-     */
+    // Port
     private final Port ULTRASONIC_SENSOR = SensorPort.S1;
-
-    /**
-     * Port of the color sensor
-     */
     private final Port COLOR_SENSOR = SensorPort.S2;
-
-    /**
-     * Port of the touch sensor
-     */
     private final Port TOUCH_SENSOR = SensorPort.S3;
-
-    /**
-     * Port of the Gyro sensor
-     */
     private final Port GYRO_SENSOR = SensorPort.S4;
-    
-    /**
-     * EV3 ultrasonic sensor instance
-     */
+    // sensor classes
     private EV3UltrasonicSensor ultrasonicSensor;
-    
-    /**
-     * EV3 color sensor instance
-     */
     private EV3ColorSensor colorSensor;
-    
-    /**
-     * EV3 touch sensor instance
-     */
     private EV3TouchSensor touchSensor;
-    
-    /**
-     * EV3 gyro sensor instance
-     */
     private EV3GyroSensor gyroSensor;
-    
+
     private SensorBuffer() {
-        //TODO init sensors
-        
+        ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
+        colorSensor = new EV3ColorSensor(COLOR_SENSOR);
+        touchSensor = new EV3TouchSensor(TOUCH_SENSOR);
+        gyroSensor = new EV3GyroSensor(GYRO_SENSOR);
     }
 
     public static SensorBuffer getInstance() {
@@ -99,10 +56,40 @@ public final class SensorBuffer extends Thread {
 
     @Override
     public void run() {
-        // TODO implement 
-    	ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
-        colorSensor = new EV3ColorSensor(COLOR_SENSOR);
-        touchSensor = new EV3TouchSensor(TOUCH_SENSOR);
-        gyroSensor = new EV3GyroSensor(GYRO_SENSOR);
+        // TODO implement
+
     }
+
+    public boolean isTouchSensorActive() {
+        return touchSensorActive;
+    }
+
+    public void setTouchSensorActive(boolean touchSensorActive) {
+        this.touchSensorActive = touchSensorActive;
+    }
+
+    public boolean isGyroSensorActive() {
+        return gyroSensorActive;
+    }
+
+    public void setGyroSensorActive(boolean gyroSensorActive) {
+        this.gyroSensorActive = gyroSensorActive;
+    }
+
+    public boolean isUltraSonicSensorActive() {
+        return ultraSonicSensorActive;
+    }
+
+    public void setUltraSonicSensorActive(boolean ultraSonicSensorActive) {
+        this.ultraSonicSensorActive = ultraSonicSensorActive;
+    }
+
+    public boolean isColorSensorActive() {
+        return colorSensorActive;
+    }
+
+    public void setColorSensorActive(boolean colorSensorActive) {
+        this.colorSensorActive = colorSensorActive;
+    }
+
 }
