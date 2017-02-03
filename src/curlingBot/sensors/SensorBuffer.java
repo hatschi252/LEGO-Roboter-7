@@ -121,7 +121,7 @@ public final class SensorBuffer extends Thread {
 
     }
 
-    public float getLastMessurementUltraSensor() {
+    public float getLastMessurementUltraSonic() {
         synchronized (ultraSonicLock) {
             return ultrasonicBuffer.getBuffer()[ultrasonicBuffer.getIndexOfLastInsertedElement()];
         }
