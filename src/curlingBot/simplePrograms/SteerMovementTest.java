@@ -7,36 +7,26 @@ import curlingBot.motorControl.MotorControl;
 import curlingBot.motorControl.MoveState;
 import lejos.hardware.Button;
 
-public class RealStraightMovementTest {
-
+public class SteerMovementTest {
 	public static void main(String[] args) {
-		System.out.println("StraightMovementTest");
+		System.out.println("SteerMovementTest");
 
 		Globals.exitThread = new ExitThread();
 		Globals.exitThread.start();
 		
 		Globals.motorControl = MotorControl.getInstance();
 		Globals.motorControl.start();
+		
 
 		Globals.waitForKey(Button.ID_ENTER);
 		while (true) {
-			Output.put("700");
-			Globals.motorControl.setMoveState(new MoveState(700, 0), 5);
+			Output.put("Circle with 500 for 5secs");
+			Globals.motorControl.setMoveState(new MoveState(200, 500), 5);
 			Globals.sleep(5000);
-			
-			Globals.motorControl.emergencyStop();
-			Globals.sleep(2000);
-			
-			Output.put("100");
-			Globals.motorControl.setMoveState(new MoveState(100, 0), 5);
+			Output.put("Circle with 400 for 5secs");
+			Globals.motorControl.setMoveState(new MoveState(200, 200), 5);
 			Globals.sleep(5000);
-			
-			Globals.motorControl.emergencyStop();
-			Globals.sleep(2000);
-			
-			Output.put("8===D");
 			Output.finished();
 		}
 	}
-
 }
