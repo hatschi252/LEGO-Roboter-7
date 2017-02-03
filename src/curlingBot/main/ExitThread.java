@@ -5,8 +5,8 @@ import lejos.hardware.Button;
 public class ExitThread extends Thread {
     @Override
     public void run() {
-        System.out.println("Press Button to exit.");
-        Button.waitForAnyPress(); // TODO check if this works
+    	Output.put("Press ESCAPE to exit.");
+    	Globals.waitForKey(Button.ID_ESCAPE);
         System.exit(0);
     }
 }

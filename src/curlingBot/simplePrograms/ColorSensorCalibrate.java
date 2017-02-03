@@ -10,11 +10,8 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
-public class AnotherFollower {
-	private static final int STANDART_SPEED = 50;
-	private static float TARGET_VALUE;
-	private static final int CORRECTION_SPEED = 25;
-	
+public class ColorSensorCalibrate {
+
 	public static void main(String[] args) {
 		ExitThread exit = new ExitThread();
 		exit.start();
@@ -26,32 +23,7 @@ public class AnotherFollower {
 		EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
 		EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.B);
 		calibrateSensor(left, right, detektor);
-		left.setSpeed(STANDART_SPEED);
-		right.setSpeed(STANDART_SPEED);
-		left.forward();
-		right.forward();
-
-		loop(buffer, left, right, detektor);
-
-	}
-
-	private static void loop(float[] buffer, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,
-			SampleProvider detektor) {
-		int cyclicCount = 0;
-		for (;;) { // ever
-			detektor.fetchSample(buffer, cyclicCount);
-			if (buffer[cyclicCount] >= TARGET_VALUE) {
-				left.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
-				right.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
-			} else if (buffer[cyclicCount] < TARGET_VALUE) {
-				left.setSpeed(STANDART_SPEED - CORRECTION_SPEED);
-				right.setSpeed(STANDART_SPEED + CORRECTION_SPEED);
-			}
-			left.forward();
-			right.forward();
-			
-			cyclicCount = ++cyclicCount % 10;
-		}
+		Button.waitForAnyPress();
 
 	}
 	private static void calibrateSensor(EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right, SampleProvider detektor) {
@@ -83,8 +55,6 @@ public class AnotherFollower {
 			min = j != 0 && j < min ? j : min;
 		}
 		System.out.println("Max:" + max + "\nMin:" + min);
-		TARGET_VALUE = (max + min) / 2f;
-		Button.waitForAnyPress();
 	}
 
 }
