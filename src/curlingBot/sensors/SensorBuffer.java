@@ -45,25 +45,24 @@ public final class SensorBuffer extends Thread {
     private SampleProvider colorProvider;
     private SampleProvider touchProvider;
     private SampleProvider gyroProvider;
-    //TODO buffers
+    // TODO buffers
     private CyclicBuffer ultrasonicBuffer;
     private CyclicBuffer colorBuffer;
     private CyclicBuffer touchBuffer;
     private CyclicBuffer gyroBuffer;
-    
 
     private SensorBuffer() {
         ultrasonicSensor = new EV3UltrasonicSensor(ULTRASONIC_SENSOR);
         colorSensor = new EV3ColorSensor(COLOR_SENSOR);
         touchSensor = new EV3TouchSensor(TOUCH_SENSOR);
         gyroSensor = new EV3GyroSensor(GYRO_SENSOR);
-        
-        //all Sensor samples are sized 1, except the gyro samples with size 2
+
+        // all Sensor samples are sized 1, except the gyro samples with size 2
         ultrasonicBuffer = new CyclicBuffer(sizeOfBuffers, 1);
         colorBuffer = new CyclicBuffer(sizeOfBuffers, 1);
         touchBuffer = new CyclicBuffer(sizeOfBuffers, 1);
         gyroBuffer = new CyclicBuffer(sizeOfBuffers * 2, 2);
-        
+
         ultrasonicProvider = ultrasonicSensor.getDistanceMode();
         colorProvider = colorSensor.getRedMode();
         touchProvider = touchSensor.getTouchMode();
@@ -80,20 +79,26 @@ public final class SensorBuffer extends Thread {
     @Override
     public void run() {
         // TODO implement
-    	for(;;) { //ever
-    		if (ultraSonicSensorActive) {
-    			//TODO implement fetch
-			}
-    		if (colorSensorActive) {
-				//TODO implement fetch
-			}
-    		if (touchSensorActive) {
-				//TODO implement fetch
-			}
-    		if (gyroSensorActive) {
-				//TODO implement fetch
-			}
-    	}
+        for (;;) { // ever
+            if (ultraSonicSensorActive) {
+                getSample(ultrasonicProvider, ultrasonicBuffer);
+            }
+            if (colorSensorActive) {
+                getSample(colorProvider, colorBuffer);
+            }
+            if (touchSensorActive) {
+                getSample(touchProvider, touchBuffer);
+            }
+            if (gyroSensorActive) {
+                getSample(gyroSensor, gyroBuffer);
+            }
+        }
+
+    }
+
+    private void getSample(SampleProvider sampleProvider, CyclicBuffer cBuffer) {
+        cBuffer.incrementIndex();
+        sampleProvider.fetchSample(cBuffer.getBuffer(), cBuffer.getIndexOfLastInsertedElement());
 
     }
 
