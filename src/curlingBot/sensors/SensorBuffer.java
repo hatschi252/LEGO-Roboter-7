@@ -46,6 +46,10 @@ public final class SensorBuffer extends Thread {
     private SampleProvider touchProvider;
     private SampleProvider gyroProvider;
     //TODO buffers
+    private CyclicBuffer ultrasonicBuffer;
+    private CyclicBuffer colorBuffer;
+    private CyclicBuffer touchBuffer;
+    private CyclicBuffer gyroBuffer;
     
 
     private SensorBuffer() {
@@ -53,6 +57,17 @@ public final class SensorBuffer extends Thread {
         colorSensor = new EV3ColorSensor(COLOR_SENSOR);
         touchSensor = new EV3TouchSensor(TOUCH_SENSOR);
         gyroSensor = new EV3GyroSensor(GYRO_SENSOR);
+        
+        //all Sensor samples are sized 1, except the gyro samples with size 2
+        ultrasonicBuffer = new CyclicBuffer(sizeOfBuffers, 1);
+        colorBuffer = new CyclicBuffer(sizeOfBuffers, 1);
+        touchBuffer = new CyclicBuffer(sizeOfBuffers, 1);
+        gyroBuffer = new CyclicBuffer(sizeOfBuffers * 2, 2);
+        
+        ultrasonicProvider = ultrasonicSensor.getDistanceMode();
+        colorProvider = colorSensor.getRedMode();
+        touchProvider = touchSensor.getTouchMode();
+        gyroProvider = gyroSensor.getAngleAndRateMode();
     }
 
     public static SensorBuffer getInstance() {
