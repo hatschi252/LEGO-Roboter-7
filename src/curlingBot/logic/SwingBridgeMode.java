@@ -1,5 +1,6 @@
 package curlingBot.logic;
 
+import curlingBot.main.Globals;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.motorControl.MoveState;
 import curlingBot.motorControl.PController;
@@ -20,9 +21,12 @@ public class SwingBridgeMode implements IMoveMode {
 	public void init() {
 		wallPC = new PController(0.8f, 200, 0.05f, 0.35f, 0.5f);
 		bridgePC = new PController(-1f, 60, 0.05f, 0.30f, 0.5f); //TODO werte genau abmessen
-		sensorBuffer = SensorBuffer.getInstance();
+		sensorBuffer = Globals.sensorBuffer;
 		sensorBuffer.setUltraSonicSensorActive(true); //TODO set all other sensors to false
-		motorControl = MotorControl.getInstance();
+		sensorBuffer.setTouchSensorActive(false);
+		sensorBuffer.setGyroSensorActive(false);
+		sensorBuffer.setColorSensorActive(false);
+		motorControl = Globals.motorControl;
 	}
 
 	@Override
