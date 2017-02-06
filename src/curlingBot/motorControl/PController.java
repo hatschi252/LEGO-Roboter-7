@@ -36,8 +36,10 @@ public class PController {
     }
 
     private float calcErrorTimesKp(float sensorInput) {
+    	float normalizedSensorInput = sensorInput > high ? high : sensorInput;
+    	normalizedSensorInput = normalizedSensorInput < low ? low : normalizedSensorInput;
         float correction = 2.0f * this.speed0;
-        return this.kp * ((midPoint - ((sensorInput - low) / (high - low))) * correction);
+        return this.kp * ((midPoint - ((normalizedSensorInput - low) / (high - low))) * correction);
     }
 
     public float getKp() {
