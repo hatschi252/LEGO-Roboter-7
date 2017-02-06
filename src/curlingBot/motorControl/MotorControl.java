@@ -12,8 +12,8 @@ public final class MotorControl extends Thread {
 	public static final Port MOTORPORT_RIGHT = MotorPort.B;
 	public static final Port MOTORPORT_ULTRASONIC = MotorPort.D;
 	private static final int ULTRASONIC_MOVE_ANGLE = 60;
-	private static final float ACC_FAC = 0.1f;
 	private static final int SLEEP_TIME = 30;
+	private static final float ACC_FAC = 0.5f;
 
 	private static MotorControl motorControlInstance;
 
@@ -48,36 +48,33 @@ public final class MotorControl extends Thread {
 		Output.put("vMax = " + leftMotor.getMaxSpeed());
 		while (true) {
 			MoveState currentMoveState = getCurrentMoveState();
-			float correctionOffset = absMax(desiredMoveState.getLeftVelocity(), desiredMoveState.getRightVelocity())
-					- leftMotor.getMaxSpeed();
-			float vLeftCorrected = absAdd(desiredMoveState.getLeftVelocity(), -correctionOffset);
-			float vRightCorrected = absAdd(desiredMoveState.getRightVelocity(), -correctionOffset);
-			float vDeltaLeft = vLeftCorrected - currentMoveState.getLeftVelocity();
-			float vDeltaRight = vRightCorrected - currentMoveState.getRightVelocity();
+			float vDeltaLeft = desiredMoveState.getLeftVelocity() - currentMoveState.getLeftVelocity();
+			float vDeltaRight = desiredMoveState.getRightVelocity() - currentMoveState.getRightVelocity();
+			float accR = Math.max(ACC_FAC * vDeltaRight, currentMaximumAcc);
+			float accL = Math.max(ACC_FAC * vDeltaLeft, currentMaximumAcc);
+			
 			if (vDeltaLeft > 0) {
-				leftMotor.setAcceleration((int) (ACC_FAC * vDeltaLeft * currentMaximumAcc));
+				leftMotor.setAcceleration((int) accL);
 				leftMotor.forward();
 			} else if (vDeltaLeft < 0) {
-				leftMotor.setAcceleration((int) (ACC_FAC * vDeltaLeft * currentMaximumAcc));
+				leftMotor.setAcceleration((int) accL);
 				leftMotor.backward();
 			} else {
 				leftMotor.setAcceleration(0);
 				leftMotor.forward();
 			}
 			if (vDeltaRight > 0) {
-				rightMotor.setAcceleration((int) (ACC_FAC * vDeltaRight * currentMaximumAcc));
+				rightMotor.setAcceleration((int) accR);
 				rightMotor.forward();
 			} else if (vDeltaRight < 0) {
-				rightMotor.setAcceleration((int) (ACC_FAC * vDeltaRight * currentMaximumAcc));
+				rightMotor.setAcceleration((int) accR);
 				rightMotor.backward();
 			} else {
 				rightMotor.setAcceleration(0);
 				rightMotor.forward();
 			}
-			
-//			Output.put("currMS = " + currentMoveState);
-//			Output.put("lAcc = " + leftMotor.getAcceleration());
-//			Output.put("rAcc = " + rightMotor.getAcceleration());
+			Output.put("" + currentMoveState);
+			Output.put("Acc=" + leftMotor.getAcceleration() + " vDRight=" + vDeltaRight);
 
 			Globals.sleep(SLEEP_TIME);
 		}
@@ -107,10 +104,9 @@ public final class MotorControl extends Thread {
 	 * @return
 	 */
 	public MoveState getCurrentMoveState() {
-		float vRight = rightMotor.getRotationSpeed();
-		float velocity = (leftMotor.getRotationSpeed() + vRight) / 2;
-		float steer = velocity - vRight;
-		return new MoveState(velocity, steer);
+		float vL = leftMotor.getRotationSpeed();
+		float vR = rightMotor.getRotationSpeed();
+		return MoveState.fromWheelVelocities(vL, vR);
 	}
 
 	/**

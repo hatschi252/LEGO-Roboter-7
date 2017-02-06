@@ -6,6 +6,9 @@ import curlingBot.sensors.SensorBuffer;
 import lejos.hardware.Button;
 
 public final class Globals {
+	//Distance between the middle of the two wheels in cm
+	public static final float AXIS_LENGTH = 19f;
+	
 	public static Logic logic;
 	public static MotorControl motorControl;
 	public static SensorBuffer sensorBuffer;

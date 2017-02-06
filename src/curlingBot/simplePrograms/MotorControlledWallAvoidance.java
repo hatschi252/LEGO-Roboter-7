@@ -15,11 +15,11 @@ import lejos.robotics.SampleProvider;
 public class MotorControlledWallAvoidance {
 	private static final int SAMPLE_ARRAY_SIZE = 3;
 	private static final float VELOCITY = 300;
-	private static final float DESIRED_DISTANCE = 0.15f;
-	private static final int MAX_ACCELERATION = 5;
+	private static final float DESIRED_DISTANCE = 0.10f;
+	private static final int MAX_ACCELERATION = 1;
 	private static final int SLEEP_TIME = 30;
-	private static final int DISTANCE_TO_STEER_FACTOR = (int) (-1 * VELOCITY);
-	private static final int MAX_STEER = 300;
+	private static final float DISTANCE_TO_RADIUS_FACTOR = (Globals.AXIS_LENGTH * 20);
+	private static final int MIN_RADIUS = (int) Globals.AXIS_LENGTH;
 	
 	private static SampleProvider ultraSampleProvider;
 	private static EV3UltrasonicSensor ultraSonicSensor;
@@ -41,11 +41,8 @@ public class MotorControlledWallAvoidance {
 //		Globals.waitForKey(Button.ID_ENTER);
 		while (true) {
 			float deltaDistance = getSample() - DESIRED_DISTANCE;
-			float steer = Math.min(MAX_STEER,
-					Math.max(-MAX_STEER, DISTANCE_TO_STEER_FACTOR * deltaDistance));
-			Output.put("dDistance = " + deltaDistance + " steer = " + steer);
-			Globals.motorControl.setMoveState(new MoveState(VELOCITY,
-					steer), MAX_ACCELERATION);
+			float radius = 500f / deltaDistance;
+			Globals.motorControl.setMoveState(new MoveState(VELOCITY, radius), MAX_ACCELERATION);
 			Globals.sleep(SLEEP_TIME);
 		}		
 	}
