@@ -13,6 +13,22 @@ public class MoveState {
 		this.velocity = velocity;
 		this.steer = steer;
 	}
+	
+	public static MoveState getMoveStateWithLeftAndRightSpeed(float leftSpeed, float rightSpeed) {
+	    float left = infiniteHandler(leftSpeed);
+	    float right = infiniteHandler(rightSpeed);
+	    float speed = (left + right) / 2;
+	    float steerValue = (Math.max(right, left) - Math.min(right, left)) / 2;
+	    return (new MoveState(speed, steerValue));
+	}
+	
+	private static float infiniteHandler(float floatToControl) {
+	    if (Float.isInfinite(floatToControl)) {
+            return Float.MAX_VALUE * Math.signum(floatToControl);
+        } else {
+            return floatToControl;
+        }
+	}
 
 	public float getVelocity() {
 		return velocity;
