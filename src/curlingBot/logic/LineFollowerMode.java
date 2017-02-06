@@ -27,6 +27,7 @@ public class LineFollowerMode implements IMoveMode {
             float rightSpeed = pController.getSpeedRight(sensorInput);
             MoveState moveState = MoveState.getMoveStateWithLeftAndRightSpeed(leftSpeed, rightSpeed);
             Globals.motorControl.setMoveState(moveState, maxAcc);
+            //TODO add end of line
         }
 
     }
