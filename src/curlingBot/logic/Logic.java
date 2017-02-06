@@ -33,6 +33,7 @@ public class Logic extends Thread {
 		//Run through the parkour
 		while (!moveModeList.isEmpty()) {
 			currentMoveMode = moveModeList.remove(0);
+			currentMoveMode.init();
 			currentMoveMode.perform();
 		}
 		//Finished?
