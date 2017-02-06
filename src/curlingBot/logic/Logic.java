@@ -35,6 +35,7 @@ public class Logic extends Thread {
 		//Run through the parkour
 		for (int i = 0; i < moveModeList.size(); i++) {
 			Output.put("Next mode started!");
+			Output.beep();
 			currentMoveMode = moveModeList.get(i);
 			currentMoveMode.init();
 			currentMoveMode.perform();

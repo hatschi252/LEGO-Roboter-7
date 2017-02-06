@@ -12,7 +12,7 @@ public class WallFollowerMode implements IMoveMode {
 
 	@Override
 	public void init() {
-		Output.put("Enter WallFollowerMode");
+		Output.put("WallFollowerMode");
 		Globals.sensorBuffer.setGyroSensorActive(false); // for see saw
 		Globals.sensorBuffer.setUltraSonicSensorActive(true);
 		Globals.sensorBuffer.setTouchSensorActive(true); // TODO check
