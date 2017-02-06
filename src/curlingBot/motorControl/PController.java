@@ -19,6 +19,13 @@ public class PController {
         this.kp = kp;
         this.speed0 = speed;
     }
+    
+    /**
+     * Instance with default parameters.
+     */
+    public PController() {
+        
+    }
 
     public float getSpeedLeft(float sensorInput) {
         return speed0 - calcErrorTimesKp(sensorInput);
