@@ -9,7 +9,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.SampleProvider;
 
 public class NXTPFollower {
-	final static float KP = 0.8f;
+	final static float KP = -0.8f;
 	final static float SPEED0 = 100f;
 	final static float LOW = 0.02f; // background
 	final static float HIGH = 0.45f; // line
