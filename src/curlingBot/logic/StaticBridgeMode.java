@@ -44,6 +44,7 @@ public class StaticBridgeMode implements IMoveMode {
             // TODO check when to brake the loop
             // TODO add gyro
         }
+        // TODO turn up ultrasonic sensor 
         // TODO check if robot can find line after the bridge
     }
 

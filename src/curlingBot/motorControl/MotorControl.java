@@ -11,7 +11,7 @@ public final class MotorControl extends Thread {
 	public static final Port MOTORPORT_LEFT = MotorPort.A;
 	public static final Port MOTORPORT_RIGHT = MotorPort.B;
 	public static final Port MOTORPORT_ULTRASONIC = MotorPort.D;
-	private static final int ULTRASONIC_MOVE_ANGLE = 60;
+	private static final int ULTRASONIC_MOVE_ANGLE = 70;
 	private static final float ACC_FAC = 0.1f;
 	private static final int SLEEP_TIME = 30;
 
