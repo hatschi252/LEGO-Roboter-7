@@ -213,6 +213,17 @@ public final class SensorBuffer extends Thread {
 
     /**
      * 
+     * @return Returns true if the touch sensor is pressed.
+     */
+    public boolean getLastMeasurementTouch() {
+        synchronized (touchLock) {
+            float touch = this.touchBuffer.getBuffer()[this.touchBuffer.getIndexOfLastInsertedElement()];
+            return touch == 1.0f;
+        }
+    }
+
+    /**
+     * 
      * @return Returns true if the touch sensor has been activated since the
      *         last call of the method. False otherwise.
      */
