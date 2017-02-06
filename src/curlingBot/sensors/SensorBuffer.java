@@ -76,6 +76,11 @@ public final class SensorBuffer extends Thread {
         gyroProvider = gyroSensor.getAngleAndRateMode();
     }
 
+    /**
+     * Returns the singleton instance
+     * 
+     * @return Returns the singleton instance
+     */
     public static SensorBuffer getInstance() {
         if (sensorBufferInstance == null) {
             sensorBufferInstance = new SensorBuffer();
@@ -121,10 +126,24 @@ public final class SensorBuffer extends Thread {
 
     }
 
+    /**
+     * Method calculates the average of the last n measured ultrasonic values.
+     * 
+     * @param countOfElements
+     *            Count of elements which will be used to calculate the average.
+     * @return Average of last countOfElements elements
+     */
     public float getAverageOfNLastMessurementsUltraSonic(int countOfElements) {
         return getAverageOfNLastMessurementsOfABuffer(countOfElements, ultrasonicBuffer, this.ultraSonicLock);
     }
 
+    /**
+     * Method calculates the average of the last n measured color values.
+     * 
+     * @param countOfElements
+     *            Count of elements which will be used to calculate the average.
+     * @return Average of last countOfElements elements
+     */
     public float getAverageOfNLastMessurementsColor(int countOfElements) {
         return getAverageOfNLastMessurementsOfABuffer(countOfElements, colorBuffer, this.colorLock);
     }
@@ -141,6 +160,13 @@ public final class SensorBuffer extends Thread {
         }
     }
 
+    /**
+     * Method calculates the average of the last n measured gyro values.
+     * 
+     * @param countOfElements
+     *            Count of elements which will be used to calculate the average.
+     * @return Average of last countOfElements elements
+     */
     public float[] getAverageOfNLastMessurementsOfGyro(int countOfElements) {
         checkCount(countOfElements);
         synchronized (gyroLock) {
@@ -163,18 +189,33 @@ public final class SensorBuffer extends Thread {
         }
     }
 
+    /**
+     * Returns the last measured value of the ultrasonic sensor
+     * 
+     * @return
+     */
     public float getLastMessurementUltraSonic() {
         synchronized (ultraSonicLock) {
             return ultrasonicBuffer.getBuffer()[ultrasonicBuffer.getIndexOfLastInsertedElement()];
         }
     }
 
+    /**
+     * Returns the last measured value of the color sensor
+     * 
+     * @return
+     */
     public float getLastMessurementColor() {
         synchronized (colorLock) {
             return colorBuffer.getBuffer()[colorBuffer.getIndexOfLastInsertedElement()];
         }
     }
 
+    /**
+     * 
+     * @return Returns true if the touch sensor has been activated since the
+     *         last call of the method. False otherwise.
+     */
     public boolean touchPressedSinceLastCall() {
         synchronized (touchLock) {
             if (pressedSinceLastCallBool) {
@@ -186,6 +227,11 @@ public final class SensorBuffer extends Thread {
         }
     }
 
+    /**
+     * Returns the last measured values of the gyro sensor
+     * 
+     * @return
+     */
     public float[] getLastMessurementGyro() {
         synchronized (gyroLock) {
             float[] resultArray = new float[2];
