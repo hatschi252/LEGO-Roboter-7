@@ -121,6 +121,48 @@ public final class SensorBuffer extends Thread {
 
     }
 
+    public float getAverageOfNLastMessurementsUltraSonic(int countOfElements) {
+        return getAverageOfNLastMessurementsOfABuffer(countOfElements, ultrasonicBuffer, this.ultraSonicLock);
+    }
+
+    public float getAverageOfNLastMessurementsColor(int countOfElements) {
+        return getAverageOfNLastMessurementsOfABuffer(countOfElements, colorBuffer, this.colorLock);
+    }
+
+    private float getAverageOfNLastMessurementsOfABuffer(int countOfElements, CyclicBuffer buffer, Object lock) {
+        checkCount(countOfElements);
+        synchronized (lock) {
+            float average = 0.0f;
+            for (int i = 0; i < countOfElements; i++) {
+                average += buffer.getBuffer()[buffer.getBuffer().length - 1 - i];
+            }
+            average /= countOfElements;
+            return average;
+        }
+    }
+
+    public float[] getAverageOfNLastMessurementsOfGyro(int countOfElements) {
+        checkCount(countOfElements);
+        synchronized (gyroLock) {
+            float[] average = new float[2];
+            for (int i = 0; i < countOfElements; i++) {
+                // TODO check this
+                average[0] += this.gyroBuffer.getBuffer()[this.gyroBuffer.getBuffer().length - 1 - (2 * i + 1)];
+                average[1] += this.gyroBuffer.getBuffer()[this.gyroBuffer.getBuffer().length - 1 - 2 * i];
+            }
+            average[0] /= countOfElements;
+            average[1] /= countOfElements;
+            return average;
+        }
+    }
+
+    private void checkCount(int countOfElements) {
+        if (countOfElements > this.sizeOfBuffers) {
+            throw new IllegalArgumentException(
+                    "Count of elemtents is greater than the amount of elements in the buffer.");
+        }
+    }
+
     public float getLastMessurementUltraSonic() {
         synchronized (ultraSonicLock) {
             return ultrasonicBuffer.getBuffer()[ultrasonicBuffer.getIndexOfLastInsertedElement()];
