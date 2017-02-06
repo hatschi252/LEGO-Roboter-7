@@ -151,4 +151,13 @@ public final class MotorControl extends Thread {
 		desiredMoveState = moveState;
 		currentMaximumAcc = maxAcc;
 	}
+	
+
+	public EV3LargeRegulatedMotor getLeftMotor() {
+		return leftMotor;
+	}
+
+	public EV3LargeRegulatedMotor getRightMotor() {
+		return rightMotor;
+	}
 }

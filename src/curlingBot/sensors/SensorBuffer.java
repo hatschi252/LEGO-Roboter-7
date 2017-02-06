@@ -75,6 +75,10 @@ public final class SensorBuffer extends Thread {
         touchProvider = touchSensor.getTouchMode();
         gyroProvider = gyroSensor.getAngleAndRateMode();
     }
+    
+    public SampleProvider getTouchProvider() {
+    	return touchProvider;
+    }
 
     /**
      * Returns the singleton instance

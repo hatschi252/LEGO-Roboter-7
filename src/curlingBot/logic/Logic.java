@@ -3,6 +3,8 @@ package curlingBot.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import curlingBot.main.Output;
+
 public class Logic extends Thread {
 	private static Logic logicThreadInstance;
 	
@@ -31,8 +33,9 @@ public class Logic extends Thread {
 	@Override
 	public void run() {
 		//Run through the parkour
-		while (!moveModeList.isEmpty()) {
-			currentMoveMode = moveModeList.remove(0);
+		for (int i = 0; i < moveModeList.size(); i++) {
+			Output.put("Next mode started!");
+			currentMoveMode = moveModeList.get(i);
 			currentMoveMode.init();
 			currentMoveMode.perform();
 		}
