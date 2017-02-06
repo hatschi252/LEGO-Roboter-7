@@ -15,12 +15,12 @@ public class Program {
 		Globals.motorControl = MotorControl.getInstance();
 		Globals.motorControl.start();
 		
-//		Globals.sensorBuffer = SensorBuffer.getInstance();
-//		Globals.sensorBuffer.start();
-//		
-//		Globals.logic = Logic.getInstance();
-//		//Add the moveModes in the order they are appearing in the parkour
-//		Globals.logic.addMoveMode(new LineFollowerMode());
-//		Globals.logic.start();		
+		Globals.sensorBuffer = SensorBuffer.getInstance();
+		Globals.sensorBuffer.start();
+		
+		Globals.logic = Logic.getInstance();
+		//Add the moveModes in the order they are appearing in the parkour
+		Globals.logic.addMoveMode(new LineFollowerMode());
+		Globals.logic.start();		
 	}
 }
