@@ -48,19 +48,14 @@ public class WallFollowerMode implements IMoveMode {
 				rotate();
 			}
 			
-			Globals.motorControl.getLeftMotor().forward();
-			Globals.motorControl.getRightMotor().forward();
+			//Globals.motorControl.getLeftMotor().forward();
+			//Globals.motorControl.getRightMotor().forward();
 			Delay.msDelay(50);
 		}
 
 		// after line detection
-		findLine();
 	}
 
-	private void findLine() {
-        // TODO Auto-generated method stub
-        
-    }
 
     private void rotate() {
 		// drive backwards
