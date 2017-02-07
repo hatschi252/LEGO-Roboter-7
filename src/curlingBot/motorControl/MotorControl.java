@@ -152,6 +152,18 @@ public final class MotorControl extends Thread {
 		currentMaximumAcc = maxAcc;
 	}
 	
+	/**
+	 * Sets the speed of the motors
+	 * @param left Speed of the left motor
+	 * @param right Speed of the right motor
+	 */
+	public void setLeftAndRightSpeed(float left, float right) {
+	    this.leftMotor.setSpeed(left);
+	    this.rightMotor.setSpeed(right);
+	    this.leftMotor.forward();
+	    this.rightMotor.forward();
+	}
+	
 
 	public EV3LargeRegulatedMotor getLeftMotor() {
 		return leftMotor;
