@@ -10,7 +10,9 @@ import lejos.utility.Stopwatch;
 
 public class SwingBridgeMode implements IMoveMode {
 
-	private final int TIME_TO_CROSS_BRIDGE = 18000; // TODO find out time;
+	private final int TIME_TO_CROSS_BRIDGE = 16000; // TODO find out time;
+	private final int TIME_EXIT_THE_BRIDGE = 8000;
+	private final int TIME_TO_DRIVE_BLIND = 4500;
 	private final int SPEED_FOR_BLIND_DRIVE = 100;
 	
 	private PController wallPC;
@@ -47,7 +49,7 @@ public class SwingBridgeMode implements IMoveMode {
 		} while (/*!Float.isInfinite(lastSensorValue) || */!(lastSensorValue > 0.17f));
 		Stopwatch timer = new Stopwatch();
 		motorControl.setLeftAndRightSpeed(this.SPEED_FOR_BLIND_DRIVE * 1.35f, this.SPEED_FOR_BLIND_DRIVE);
-		while (timer.elapsed() < 5000) {
+		while (timer.elapsed() < this.TIME_TO_DRIVE_BLIND) {
 		    //do nothing (robot drives forward)
 		}
 		timer.reset();    
@@ -62,7 +64,7 @@ public class SwingBridgeMode implements IMoveMode {
         motorControl.setLeftAndRightSpeed(100, 100);
         motorControl.moveUltrasonicUp(); //robot is over the bridge
         timer.reset();
-        while (timer.elapsed() < 2000) {
+        while (timer.elapsed() < this.TIME_EXIT_THE_BRIDGE) {
             // do nothing
         }
         // follow the wall
@@ -72,7 +74,8 @@ public class SwingBridgeMode implements IMoveMode {
             leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
             rightSpeed = wallPC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
-        } while (timer.elapsed() < 10000);
+        } while (true);//timer.elapsed() < 10000);
+        //TODO endboss detection (maybe with gyro)
 	}
 
 }
