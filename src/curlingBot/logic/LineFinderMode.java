@@ -23,7 +23,8 @@ public class LineFinderMode implements IMoveMode {
      * @param vLeft Left speed
      * @param vRight Right speed
      * @param driveForwardDelay With this delay (in milliseconds) the robot will drive forward
-     * @param timeoutMilliSeconds the robot stops after the time (timeoutMilliSeconds) runs out (or it found a line)
+     * @param timeoutMilliSeconds the robot stops after the time (timeoutMilliSeconds) runs out (or it found a line). 
+     * (-1 for infinite time)
      */
     public LineFinderMode(int vLeft, int vRight, int driveForwardDelay, int timeoutMilliSeconds) {
         this.leftSpeed = vLeft;
