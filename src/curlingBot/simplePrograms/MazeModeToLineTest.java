@@ -3,7 +3,7 @@ package curlingBot.simplePrograms;
 import curlingBot.logic.EndMode;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
-import curlingBot.logic.MazeMode;
+import curlingBot.logic.AdvancedMazeMode;
 import curlingBot.logic.SwampMode;
 import curlingBot.main.ExitThread;
 import curlingBot.main.Globals;
@@ -28,7 +28,7 @@ public class MazeModeToLineTest {
 		Globals.logic = Logic.getInstance();
 		
 		//Add the moveModes in the order they are appearing in the parkour
-		Globals.logic.addMoveMode(new MazeMode());
+		Globals.logic.addMoveMode(new AdvancedMazeMode());
 		Globals.logic.addMoveMode(new LineFollowerMode());
 		Globals.logic.addMoveMode(new EndMode());
 		

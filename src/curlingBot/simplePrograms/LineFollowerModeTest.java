@@ -6,7 +6,7 @@ import curlingBot.logic.Logic;
 import curlingBot.logic.StaticBridgeMode;
 import curlingBot.logic.SwampMode;
 import curlingBot.logic.SwingBridgeMode;
-import curlingBot.logic.MazeMode;
+import curlingBot.logic.AdvancedMazeMode;
 import curlingBot.main.ExitThread;
 import curlingBot.main.Globals;
 import curlingBot.main.Output;

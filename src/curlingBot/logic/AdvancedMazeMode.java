@@ -6,7 +6,7 @@ import curlingBot.motorControl.PController;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
-public class MazeMode implements IMoveMode {
+public class AdvancedMazeMode implements IMoveMode {
 	private final static int STANDARD_ACC = 4000;
 	
 	// with 45°
