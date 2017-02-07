@@ -8,9 +8,21 @@ import lejos.utility.Delay;
 
 public class MazeMode implements IMoveMode {
 	private final static int STANDARD_ACC = 4000;
-	private final static int ROTATION_ANGLE = 180;
+	
+	// with 45°
+	private final static int ROTATION_ANGLE = 90; //180=90°
 	private final static int BACKWARD_DISTANCE = 70;
-	private final static int STANDARD_SPEED = 200;
+	private final static int FORWARD_DISTANCE = 130;
+	private final static int STANDARD_SPEED = 420;
+	private final static int SLOW_SPEED = 220;
+	
+	// without 45° (only right angles) TODO: experimental values, does not work yet
+//	private final static int ROTATION_ANGLE = 180; //180=90°
+//	private final static int BACKWARD_DISTANCE = 70;
+//	private final static int FORWARD_DISTANCE = 0;
+//	private final static int STANDARD_SPEED = 420;
+//	private final static int SLOW_SPEED = STANDARD_SPEED;
+	
 	private final static float LINE_BRIGHTNESS = 0.2f;
 	private final static float WALL_MIN_DISTANCE = 0.1f;
 	private final static float WALL_MAX_DISTANCE = 0.15f;
@@ -65,6 +77,14 @@ public class MazeMode implements IMoveMode {
 		Globals.motorControl.getLeftMotor().waitComplete();
 		Globals.motorControl.getRightMotor().waitComplete();
 		
+		Globals.motorControl.getLeftMotor().setSpeed(SLOW_SPEED);
+		Globals.motorControl.getRightMotor().setSpeed(SLOW_SPEED);
+		Globals.motorControl.getLeftMotor().startSynchronization();
+		Globals.motorControl.getLeftMotor().rotate(FORWARD_DISTANCE);
+		Globals.motorControl.getRightMotor().rotate(FORWARD_DISTANCE);
+		Globals.motorControl.getLeftMotor().endSynchronization();
+		Globals.motorControl.getLeftMotor().waitComplete();
+		Globals.motorControl.getRightMotor().waitComplete();
 //		// drive backwards
 //		Globals.motorControl.getLeftMotor().stop();
 //		Globals.motorControl.getRightMotor().stop();
@@ -93,6 +113,9 @@ public class MazeMode implements IMoveMode {
 		// p-controlled line following
 		float leftSpeed = pController.getSpeedLeft(sensorInput);
 		float rightSpeed = pController.getSpeedRight(sensorInput);
+		
+		//Output.put("maxSpeed"+(leftSpeed-pController.getSpeed0()));
+		//Output.put("maxSpeed"+(rightSpeed-pController.getSpeed0()));
 
 		Globals.motorControl.getLeftMotor().setSpeed(leftSpeed);
 		Globals.motorControl.getRightMotor().setSpeed(rightSpeed);
