@@ -14,7 +14,7 @@ public class Program {
 		Globals.exitThread.start();
 		
 		Globals.motorControl = MotorControl.getInstance();
-//		Globals.motorControl.start();
+
 		
 		Globals.sensorBuffer = SensorBuffer.getInstance();
 		Globals.sensorBuffer.start();
