@@ -34,25 +34,15 @@ public class SwingBridgeMode implements IMoveMode {
 
 	@Override
 	public void perform() {
-		// TODO Auto-generated method stub
 		float lastSensorValue;
 		float leftSpeed;
 		float rightSpeed;
-		//motorControl.setMoveState(MoveState.getMoveStateWithLeftAndRightSpeed(wallPC.getSpeed0(), wallPC.getSpeed0()),
-		//		6000);
-		motorControl.getLeftMotor().setSpeed(wallPC.getSpeed0());
-		motorControl.getRightMotor().setSpeed(wallPC.getSpeed0());
-		motorControl.getLeftMotor().forward();
-		motorControl.getRightMotor().forward();
+		motorControl.setLeftAndRightSpeed(wallPC.getSpeed0(), wallPC.getSpeed0());
 		do {
 			lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
 			leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
 			rightSpeed = wallPC.getSpeedRight(lastSensorValue);
-			//motorControl.setMoveState(MoveState.getMoveStateWithLeftAndRightSpeed(leftSpeed, rightSpeed), 6000);
-			motorControl.getLeftMotor().setSpeed(leftSpeed);
-	        motorControl.getRightMotor().setSpeed(rightSpeed);
-	        motorControl.getLeftMotor().forward();
-	        motorControl.getRightMotor().forward();
+	        motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
 		} while (!Float.isInfinite(lastSensorValue));
 		Stopwatch timer = new Stopwatch();
 		while (timer.elapsed() < 2000) {
@@ -66,17 +56,9 @@ public class SwingBridgeMode implements IMoveMode {
 			Output.put("us: " + lastSensorValue);
 			leftSpeed = bridgePC.getSpeedLeft(lastSensorValue);
 			rightSpeed = bridgePC.getSpeedRight(lastSensorValue);
-			//motorControl.setMoveState(MoveState.getMoveStateWithLeftAndRightSpeed(leftSpeed, rightSpeed), 6000);
-			motorControl.getLeftMotor().setSpeed(leftSpeed);
-            motorControl.getRightMotor().setSpeed(rightSpeed);
-            motorControl.getLeftMotor().forward();
-            motorControl.getRightMotor().forward();
+            motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
 		}
-		motorControl.setMoveState(MoveState.getMoveStateWithLeftAndRightSpeed(200, 200), 6000);
-		motorControl.getLeftMotor().setSpeed(200);
-        motorControl.getRightMotor().setSpeed(200);
-        motorControl.getLeftMotor().forward();
-        motorControl.getRightMotor().forward();
+        motorControl.setLeftAndRightSpeed(200, 200);
 	}
 
 }
