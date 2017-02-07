@@ -1,6 +1,7 @@
 package curlingBot.main;
 
 import curlingBot.logic.EndMode;
+import curlingBot.logic.LineFinderAfterMaze;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
 import curlingBot.logic.StaticBridgeMode;
@@ -27,6 +28,7 @@ public class Program {
 		// Add the moveModes in the order they are appearing in the parkour
 
 		Globals.logic.addMoveMode(new WallFollowerMode());
+		Globals.logic.addMoveMode(new LineFinderAfterMaze());
 		Globals.logic.addMoveMode(new LineFollowerMode());
 		Globals.logic.addMoveMode(new StaticBridgeMode());
 		Globals.logic.addMoveMode(new LineFollowerMode());
