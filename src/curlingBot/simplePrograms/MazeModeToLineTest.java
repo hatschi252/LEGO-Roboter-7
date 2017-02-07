@@ -3,6 +3,7 @@ package curlingBot.simplePrograms;
 import curlingBot.logic.EndMode;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
+import curlingBot.logic.MazeMode;
 import curlingBot.logic.SwampMode;
 import curlingBot.main.ExitThread;
 import curlingBot.main.Globals;
@@ -10,9 +11,10 @@ import curlingBot.main.Output;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
 
-public class LineToSwampTest {
+public class MazeModeToLineTest {
+
 	public static void main(String[] args) {
-		Output.put("LineToSwampTest");
+		Output.put("MazeModeToLineTest");
 		//Start exit thread first. If something goes wrong we can still shut everything down.
 		Globals.exitThread = new ExitThread();
 		Globals.exitThread.start();
@@ -24,12 +26,14 @@ public class LineToSwampTest {
 		Globals.sensorBuffer.start();
 		
 		Globals.logic = Logic.getInstance();
+		
 		//Add the moveModes in the order they are appearing in the parkour
-		//Globals.logic.addMoveMode(new WallFollowerMode());
+		Globals.logic.addMoveMode(new MazeMode());
 		Globals.logic.addMoveMode(new LineFollowerMode());
-		Globals.logic.addMoveMode(new SwampMode());
 		Globals.logic.addMoveMode(new EndMode());
 		
 		Globals.logic.start();		
+
 	}
+
 }
