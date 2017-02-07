@@ -2,6 +2,7 @@ package curlingBot.logic;
 
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
+import lejos.utility.Delay;
 
 public class StaticBridgeMode implements IMoveMode {
 
@@ -10,7 +11,9 @@ public class StaticBridgeMode implements IMoveMode {
                                                              // 0 and 1
     private final float CORRECTION_FACTOR_TURN_LEFT = 0.7f; // must be between 0
                                                             // and 1
-
+    private final int DELAY_TO_GET_ON_BRIDGE = 4000;
+    private final float BRIGHTNESS_THRESHHOLD = 0.2f;
+    
     @Override
     public void init() {
         Output.put("Enter StaticBridgeMode");
@@ -22,10 +25,13 @@ public class StaticBridgeMode implements IMoveMode {
 
     @Override
     public void perform() {
+        // robot is infront of the bridge
+        Globals.motorControl.setLeftAndRightSpeed(SPEED, SPEED);
+        Delay.msDelay(DELAY_TO_GET_ON_BRIDGE);
         // on bridge turn ultra sonic sensor
         Globals.motorControl.moveUltrasonicDown();
         // TODO check if the robot can find the edge of the bridge
-        while (true) {
+        while (Globals.sensorBuffer.getLastMessurementColor() < this.BRIGHTNESS_THRESHHOLD) {
             if (Globals.sensorBuffer.getLastMessurementUltraSonic() < 0.1f) {
                 // robot and ultrasonic sensor are on the bridge
 
@@ -41,11 +47,9 @@ public class StaticBridgeMode implements IMoveMode {
             }
             Globals.motorControl.getRightMotor().forward();
             Globals.motorControl.getLeftMotor().forward();
-            // TODO check when to brake the loop
-            // TODO add gyro
         }
-        // TODO turn up ultrasonic sensor 
-        // TODO check if robot can find line after the bridge
+        // turn up ultrasonic sensor 
+        Globals.motorControl.moveUltrasonicUp();
     }
 
 }
