@@ -11,9 +11,10 @@ public class LineFollowerMode implements IMoveMode {
 	private final int STANDARD_ACC = 4000; // TODO test acc s
 	private final int TURN_ACC = 2000;
 	private final int STANDARD_SPEED = 240;
-	private final int TURN_SPEED = 120;
+	private final int TURN_SPEED = 180;
 	private final int LOST_LINE_TIMEOUT = 600;
 	private final int SLEEP_TIME_AFTER_TURN = 200;
+	private final float LINE_SPEED  =100f;
 
 	/**
 	 * After endo of line the robot is slightly turned right, this constant is
@@ -23,7 +24,7 @@ public class LineFollowerMode implements IMoveMode {
 	/*
 	 * Used to turn left and right with 100 degrees
 	 */
-	private final int TACHO_COUNT_100_DEGREES = 150;
+	private final int TACHO_COUNT_100_DEGREE_TURN = 150;
 	private final int TACHO_COUNT_5CM = 60;
 
 	private PController pController;
@@ -120,19 +121,19 @@ public class LineFollowerMode implements IMoveMode {
 		case LOOK_LEFT:
 			bothDone = true;
 			Globals.motorControl.getLeftMotor().startSynchronization();
-			if (currentRightTacho < TACHO_COUNT_100_DEGREES) {
+			if (currentRightTacho < TACHO_COUNT_100_DEGREE_TURN) {
 				Globals.motorControl.getRightMotor().forward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getRightMotor().stop();
-				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREES);
+				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREE_TURN);
 			}
-			if (currentLeftTacho > -TACHO_COUNT_100_DEGREES) {
+			if (currentLeftTacho > -TACHO_COUNT_100_DEGREE_TURN) {
 				Globals.motorControl.getLeftMotor().backward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getLeftMotor().stop();
-				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREES);
+				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREE_TURN);
 			}
 			Globals.motorControl.getLeftMotor().endSynchronization();
 			// Both motors are done turning left, now turn back to straight.
@@ -146,19 +147,19 @@ public class LineFollowerMode implements IMoveMode {
 		case LOOK_RIGHT:
 			bothDone = true;
 			Globals.motorControl.getLeftMotor().startSynchronization();
-			if (currentRightTacho > -TACHO_COUNT_100_DEGREES) {
+			if (currentRightTacho > -TACHO_COUNT_100_DEGREE_TURN) {
 				Globals.motorControl.getRightMotor().backward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getRightMotor().stop();
-				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREES);
+				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREE_TURN);
 			}
-			if (currentLeftTacho < TACHO_COUNT_100_DEGREES) {
+			if (currentLeftTacho < TACHO_COUNT_100_DEGREE_TURN) {
 				Globals.motorControl.getLeftMotor().forward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getLeftMotor().stop();
-				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREES);
+				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREE_TURN);
 			}
 			Globals.motorControl.getLeftMotor().endSynchronization();
 			// Both motors are done turning left, now turn back to straight.
@@ -209,12 +210,11 @@ public class LineFollowerMode implements IMoveMode {
 		Globals.motorControl.getRightMotor().setSpeed(STANDARD_SPEED);
 
 		float kp = -0.8f;
-		float speed0 = 100f;
 		float low = 0.00f; // background
 		float high = 0.3f; // line
 		float midPoint = 0.5f;
 
-		this.pController = new PController(kp, speed0, low, high, midPoint);
+		this.pController = new PController(kp, LINE_SPEED, low, high, midPoint);
 		while (currentSearchMode != SearchMode.END) {
 			float sensorInput = Globals.sensorBuffer.getLastMessurementColor();
 			if (sensorInput > (low + high) / 2) {

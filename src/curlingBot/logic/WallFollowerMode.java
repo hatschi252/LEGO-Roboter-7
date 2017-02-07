@@ -2,13 +2,18 @@ package curlingBot.logic;
 
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
-import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
 public class WallFollowerMode implements IMoveMode {
-
-	private final int STANDARD_SPEED = 240;
-	private final float LINE_BRIGHTNESS = 0.2f;
+	private final static int ROTATION_DELAY = 750;
+	private final static int BACKWARD_DELAY = 200;
+	private final static int STANDARD_SPEED = 240;
+	private final static float LINE_BRIGHTNESS = 0.2f;
+	private final static float CORRECTION_FACTOR = 0.35f;
+	private final static float WALL_MIN_DISTANCE = 0.1f;
+	private final static float WALL_ACCEPTABLE_DISTANCE = 0.15f;
+	private final static int SLEEP_TIME = 50;
+	
 
 	@Override
 	public void init() {
@@ -23,15 +28,14 @@ public class WallFollowerMode implements IMoveMode {
 	public void perform() {
 		// setup motors
 		Globals.motorControl.setLeftAndRightSpeed(STANDARD_SPEED, STANDARD_SPEED);
-		float correctionFactor = 0.50f;
 		while (!hasLineDetected()) { // infinity loop
 			float currentWallDistance = Globals.sensorBuffer.getLastMessurementUltraSonic();
-			if (currentWallDistance < 0.1f) {
+			if (currentWallDistance < WALL_MIN_DISTANCE) {
 				// robot is close to the wall
 				//Globals.motorControl.getRightMotor().setSpeed((int) ((float) STANDARD_SPEED * correctionFactor));
 				//Globals.motorControl.getLeftMotor().setSpeed(STANDARD_SPEED);
-				Globals.motorControl.setLeftAndRightSpeed(STANDARD_SPEED, STANDARD_SPEED * correctionFactor);
-			} else if (currentWallDistance < 0.15f) {
+				Globals.motorControl.setLeftAndRightSpeed(STANDARD_SPEED, STANDARD_SPEED * CORRECTION_FACTOR);
+			} else if (currentWallDistance < WALL_ACCEPTABLE_DISTANCE) {
 				// the distance to the wall is acceptable
 				//Globals.motorControl.getRightMotor().setSpeed(STANDARD_SPEED);
 				//Globals.motorControl.getLeftMotor().setSpeed(STANDARD_SPEED);
@@ -40,7 +44,7 @@ public class WallFollowerMode implements IMoveMode {
 				// robot is too far away from the wall
 				// Globals.motorControl.getLeftMotor().setSpeed((int) ((float) STANDARD_SPEED * correctionFactor));
 				// Globals.motorControl.getRightMotor().setSpeed(STANDARD_SPEED);
-				Globals.motorControl.setLeftAndRightSpeed(STANDARD_SPEED * correctionFactor, STANDARD_SPEED);
+				Globals.motorControl.setLeftAndRightSpeed(STANDARD_SPEED * CORRECTION_FACTOR, STANDARD_SPEED);
 			}
 
 			// check if touch was pressed -> 90° rotate to the right
@@ -50,7 +54,7 @@ public class WallFollowerMode implements IMoveMode {
 			
 			//Globals.motorControl.getLeftMotor().forward();
 			//Globals.motorControl.getRightMotor().forward();
-			Delay.msDelay(50);
+			Delay.msDelay(SLEEP_TIME);
 		}
 
 		// after line detection
@@ -65,11 +69,11 @@ public class WallFollowerMode implements IMoveMode {
 		Globals.motorControl.getRightMotor().setSpeed(STANDARD_SPEED);
 		Globals.motorControl.getRightMotor().backward();
 		Globals.motorControl.getLeftMotor().backward();
-		Delay.msDelay(750);
+		Delay.msDelay(BACKWARD_DELAY);
 		// turn 90° to the right
 		Globals.motorControl.getLeftMotor().forward();
 		Globals.motorControl.getRightMotor().backward();
-		Delay.msDelay(750);
+		Delay.msDelay(ROTATION_DELAY);
 		// drive forward and continue to follow the wall
 		Globals.motorControl.getRightMotor().forward();
 	}
