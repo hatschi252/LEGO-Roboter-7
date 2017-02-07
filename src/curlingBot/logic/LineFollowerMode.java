@@ -23,7 +23,7 @@ public class LineFollowerMode implements IMoveMode {
 	/*
 	 * Used to turn left and right with 100 degrees
 	 */
-	private final int TACHO_COUNT_100_DEGREES = 200;
+	private final int TACHO_COUNT_100_DEGREES = 150;
 	private final int TACHO_COUNT_5CM = 60;
 
 	private PController pController;
