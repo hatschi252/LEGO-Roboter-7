@@ -9,6 +9,7 @@ import curlingBot.logic.StaticBridgeMode;
 import curlingBot.logic.SwampMode;
 import curlingBot.logic.SwingBridgeMode;
 import curlingBot.logic.MazeMode;
+import curlingBot.logic.SeesawMode;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
 
@@ -35,8 +36,9 @@ public class Program {
 		Globals.logic.addMoveMode(new StaticBridgeMode());
 		Globals.logic.addMoveMode(new LineFinderMode(80, 100, 500, -1));
 		Globals.logic.addMoveMode(new LineFollowerMode());
-		// TODO add move mode for seesaw (wippe) and insert linefollowermode
-		// after it
+        Globals.logic.addMoveMode(new SeesawMode());
+        Globals.logic.addMoveMode(new LineFollowerMode());
+		// TODO add mode to find line after see faw
 		Globals.logic.addMoveMode(new SwampMode());
 		Globals.logic.addMoveMode(new SwingBridgeMode());
 		// TODO endboss mode
