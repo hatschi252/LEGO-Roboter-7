@@ -40,7 +40,7 @@ public class SwampMode implements IMoveMode {
 		Globals.motorControl.getRightMotor().forward();
 		// Globals.motorControl.getLeftMotor().endSynchronization();
 		long lastTimeMillis = System.currentTimeMillis();
-		while (true) {
+		while (!Globals.sensorBuffer.getLastMeasurementTouch()) {
 			Globals.sleep(200);
 			float timeStep = (System.currentTimeMillis() - lastTimeMillis) / 1000f;
 			lastTimeMillis = System.currentTimeMillis();
@@ -56,7 +56,6 @@ public class SwampMode implements IMoveMode {
 			Globals.motorControl.getLeftMotor().setSpeed(desiredSpeed + (desiredSpeed - curVelocityLeft) / 10);
 			Globals.motorControl.getLeftMotor().forward();
 			Globals.motorControl.getRightMotor().forward();
-
 		}
 	}
 
