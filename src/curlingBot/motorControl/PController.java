@@ -39,11 +39,12 @@ public class PController {
     	float normalizedSensorInput = sensorInput > high ? high : sensorInput;
     	normalizedSensorInput = normalizedSensorInput < low ? low : normalizedSensorInput;
         float correction = 2.0f * this.speed0;
-        return this.kp * ((midPoint - ((normalizedSensorInput - low) / (high - low))) * correction);
+        float returnValue = this.kp * ((midPoint - ((normalizedSensorInput - low) / (high - low))) * correction);
+        return returnValue <= speed0 ? returnValue : speed0;
     }
 
     public float getKp() {
-        return kp;
+        return kp; 
     }
 
     public void setKp(float kp) {
