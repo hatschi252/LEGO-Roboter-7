@@ -4,7 +4,7 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.utility.Delay;
 
-public class WallFollowerMode implements IMoveMode {
+public class MazeMode implements IMoveMode {
 	private final static int ROTATION_DELAY = 750;
 	private final static int BACKWARD_DELAY = 200;
 	private final static int STANDARD_SPEED = 240;

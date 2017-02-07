@@ -11,7 +11,7 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
-public class WallAvoidanceTest {
+public class MazeModeTest {
 
     static int standardSpeedMotors = 240;
 

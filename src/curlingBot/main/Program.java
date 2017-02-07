@@ -7,7 +7,7 @@ import curlingBot.logic.Logic;
 import curlingBot.logic.StaticBridgeMode;
 import curlingBot.logic.SwampMode;
 import curlingBot.logic.SwingBridgeMode;
-import curlingBot.logic.WallFollowerMode;
+import curlingBot.logic.MazeMode;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
 
@@ -27,7 +27,7 @@ public class Program {
 		Globals.logic = Logic.getInstance();
 		// Add the moveModes in the order they are appearing in the parkour
 
-		Globals.logic.addMoveMode(new WallFollowerMode());
+		Globals.logic.addMoveMode(new MazeMode());
 		Globals.logic.addMoveMode(new LineFinderAfterMaze());
 		Globals.logic.addMoveMode(new LineFollowerMode());
 		Globals.logic.addMoveMode(new StaticBridgeMode());

@@ -4,7 +4,7 @@ import curlingBot.logic.EndMode;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
 import curlingBot.logic.SeesawMode;
-import curlingBot.logic.WallFollowerMode;
+import curlingBot.logic.MazeMode;
 import curlingBot.main.ExitThread;
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
@@ -26,7 +26,7 @@ public class WallFollowerModeTest {
 
 		Globals.logic = Logic.getInstance();
 		// Add the moveModes in the order they are appearing in the parkour
-		Globals.logic.addMoveMode(new WallFollowerMode());
+		Globals.logic.addMoveMode(new MazeMode());
 		Globals.logic.addMoveMode(new EndMode());
 
 		Globals.logic.start();		
