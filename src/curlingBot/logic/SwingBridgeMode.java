@@ -10,8 +10,9 @@ import lejos.utility.Stopwatch;
 
 public class SwingBridgeMode implements IMoveMode {
 
-	private final int TIME_TO_CROSS_BRIDGE = 20000; // TODO find out time;
-
+	private final int TIME_TO_CROSS_BRIDGE = 18000; // TODO find out time;
+	private final int SPEED_FOR_BLIND_DRIVE = 100;
+	
 	private PController wallPC;
 	private PController bridgePC;
 	private SensorBuffer sensorBuffer;
@@ -19,13 +20,12 @@ public class SwingBridgeMode implements IMoveMode {
 
 	@Override
 	public void init() {
-		wallPC = new PController(-0.8f, 100, 0.01f, 0.15f, 0.5f);
-		bridgePC = new PController(1f, 80, 0.01f, 0.15f, 0.5f); // TODO werte
+		wallPC = new PController(-0.8f, 100, 0.01f, 0.2f, 0.5f);
+		bridgePC = new PController(1f, 80, 0.01f, 0.13f, 0.5f); // TODO werte
 																	// genau
 																	// abmessen
 		sensorBuffer = Globals.sensorBuffer;
-		sensorBuffer.setUltraSonicSensorActive(true); // TODO set all other
-														// sensors to false
+		sensorBuffer.setUltraSonicSensorActive(true);
 		sensorBuffer.setTouchSensorActive(false);
 		sensorBuffer.setGyroSensorActive(false);
 		sensorBuffer.setColorSensorActive(false);
@@ -38,27 +38,41 @@ public class SwingBridgeMode implements IMoveMode {
 		float leftSpeed;
 		float rightSpeed;
 		motorControl.setLeftAndRightSpeed(wallPC.getSpeed0(), wallPC.getSpeed0());
-		do {
+		do { //follow the wall
 			lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
 			leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
 			rightSpeed = wallPC.getSpeedRight(lastSensorValue);
 	        motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
-		} while (!Float.isInfinite(lastSensorValue));
+	        //Output.put("us: " + lastSensorValue);
+		} while (/*!Float.isInfinite(lastSensorValue) || */!(lastSensorValue > 0.17f));
 		Stopwatch timer = new Stopwatch();
-		while (timer.elapsed() < 2000) {
-		    
+		motorControl.setLeftAndRightSpeed(this.SPEED_FOR_BLIND_DRIVE * 1.35f, this.SPEED_FOR_BLIND_DRIVE);
+		while (timer.elapsed() < 5000) {
+		    //do nothing (robot drives forward)
 		}
 		timer.reset();    
-		motorControl.moveUltrasonicDown();
+		motorControl.moveUltrasonicDown(); //we should be on the bridge
 		
-		while (timer.elapsed() < TIME_TO_CROSS_BRIDGE) {
+		while (timer.elapsed() < TIME_TO_CROSS_BRIDGE) { //cross the bridge
 			lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
-			Output.put("us: " + lastSensorValue);
 			leftSpeed = bridgePC.getSpeedLeft(lastSensorValue);
 			rightSpeed = bridgePC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
 		}
-        motorControl.setLeftAndRightSpeed(200, 200);
+        motorControl.setLeftAndRightSpeed(100, 100);
+        motorControl.moveUltrasonicUp(); //robot is over the bridge
+        timer.reset();
+        while (timer.elapsed() < 2000) {
+            // do nothing
+        }
+        // follow the wall
+        timer.reset();
+        do {
+            lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
+            leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
+            rightSpeed = wallPC.getSpeedRight(lastSensorValue);
+            motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
+        } while (timer.elapsed() < 10000);
 	}
 
 }
