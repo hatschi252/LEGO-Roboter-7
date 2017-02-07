@@ -2,6 +2,7 @@ package curlingBot.main;
 
 import curlingBot.logic.EndMode;
 import curlingBot.logic.LineFinderAfterMaze;
+import curlingBot.logic.LineFinderLineSearchAfterBridge;
 import curlingBot.logic.LineFinderMode;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
@@ -34,7 +35,9 @@ public class Program {
 		Globals.logic.addMoveMode(new LineFinderMode(100, 90, 750, -1));
 		Globals.logic.addMoveMode(new LineFollowerMode());
 		Globals.logic.addMoveMode(new StaticBridgeMode());
-		Globals.logic.addMoveMode(new LineFinderMode(80, 100, 500, -1));
+		//Globals.logic.addMoveMode(new LineFinderMode(80, 100, 500, -1));
+        Globals.logic.addMoveMode(new LineFinderLineSearchAfterBridge());
+        Globals.logic.addMoveMode(new LineFinderMode(110, 80, 0, 1000));
 		Globals.logic.addMoveMode(new LineFollowerMode());
         Globals.logic.addMoveMode(new LineFinderMode(400, 400, 1500, 0)); // burst blindly onto see saw
         Globals.logic.addMoveMode(new LineFollowerMode()); // find/drive on line on the see saw
