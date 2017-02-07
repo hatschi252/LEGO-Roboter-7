@@ -11,6 +11,7 @@ public class EndMode implements IMoveMode {
 	@Override
 	public void perform() {
 		Output.put("EndMode");
+		Output.finished();
 	}
 	
 

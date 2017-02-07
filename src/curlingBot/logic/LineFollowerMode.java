@@ -42,8 +42,8 @@ public class LineFollowerMode implements IMoveMode {
 		Globals.sensorBuffer.setUltraSonicSensorActive(false);
 		Globals.sensorBuffer.setTouchSensorActive(false); // TODO check
 		Globals.sensorBuffer.setColorSensorActive(true);
-		//currentSearchMode = SearchMode.ON_LINE;
-		currentSearchMode = SearchMode.END;
+		currentSearchMode = SearchMode.ON_LINE;
+		// currentSearchMode = SearchMode.END;
 	}
 
 	private void searchLine() {
@@ -125,12 +125,14 @@ public class LineFollowerMode implements IMoveMode {
 				bothDone = false;
 			} else {
 				Globals.motorControl.getRightMotor().stop();
+				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREES);
 			}
 			if (currentLeftTacho > -TACHO_COUNT_100_DEGREES) {
 				Globals.motorControl.getLeftMotor().backward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getLeftMotor().stop();
+				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREES);
 			}
 			Globals.motorControl.getLeftMotor().endSynchronization();
 			// Both motors are done turning left, now turn back to straight.
@@ -149,12 +151,14 @@ public class LineFollowerMode implements IMoveMode {
 				bothDone = false;
 			} else {
 				Globals.motorControl.getRightMotor().stop();
+				Globals.motorControl.getRightMotor().rotate(currentRightTacho - TACHO_COUNT_100_DEGREES);
 			}
 			if (currentLeftTacho < TACHO_COUNT_100_DEGREES) {
 				Globals.motorControl.getLeftMotor().forward();
 				bothDone = false;
 			} else {
 				Globals.motorControl.getLeftMotor().stop();
+				Globals.motorControl.getLeftMotor().rotate(currentLeftTacho - TACHO_COUNT_100_DEGREES);
 			}
 			Globals.motorControl.getLeftMotor().endSynchronization();
 			// Both motors are done turning left, now turn back to straight.
@@ -172,12 +176,14 @@ public class LineFollowerMode implements IMoveMode {
 				Globals.motorControl.getRightMotor().backward();
 				bothDone = false;
 			} else {
+				Globals.motorControl.getRightMotor().rotate(currentRightTacho);
 				Globals.motorControl.getRightMotor().stop();
 			}
 			if (currentLeftTacho < 0) {
 				Globals.motorControl.getLeftMotor().forward();
 				bothDone = false;
 			} else {
+				Globals.motorControl.getRightMotor().rotate(-currentLeftTacho);
 				Globals.motorControl.getLeftMotor().stop();
 			}
 			Globals.motorControl.getLeftMotor().endSynchronization();
