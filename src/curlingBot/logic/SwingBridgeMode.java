@@ -76,7 +76,7 @@ public class SwingBridgeMode implements IMoveMode {
             rightSpeed = wallPC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
         } while (!hasFoundLine());//timer.elapsed() < 10000);
-        //TODO endboss detection (maybe with gyro)
+        Globals.motorControl.setLeftAndRightSpeed(0, 0);
 	}
 	private boolean hasFoundLine() {
 	    return Globals.sensorBuffer.getLastMessurementColor() > 0.2f;
