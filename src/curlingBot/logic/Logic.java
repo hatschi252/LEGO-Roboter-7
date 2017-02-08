@@ -57,7 +57,7 @@ public class Logic implements Runnable {
 			// Run through the parkour
 			for (int i = startIndex; i < moveModeList.size(); i++) {
 				currentMoveMode = moveModeList.get(i);
-				Output.put("Starting: " + currentMoveMode.getDescription());
+				Output.put("->" + currentMoveMode.getDescription());
 				Output.beep();
 				currentMoveMode.init();
 				currentMoveMode.perform();
