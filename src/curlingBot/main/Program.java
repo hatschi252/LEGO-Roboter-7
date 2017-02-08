@@ -1,6 +1,7 @@
 package curlingBot.main;
 
 import curlingBot.logic.AdvancedMazeMode;
+import curlingBot.logic.AfterSwampMode;
 import curlingBot.logic.LineFinderLineSearchAfterBridge;
 import curlingBot.logic.LineFinderMode;
 import curlingBot.logic.LineFollowerMode;
@@ -79,8 +80,8 @@ public class Program {
         Globals.logic.addMoveMode(new LineFinderMode("Line Finder mode", 400, 400, 0, 1500));  // overcome the gap after see saw
         Globals.logic.addMoveMode(new LineFollowerMode("Line follower mode")); // go on with line
 		Globals.logic.addMoveMode(new SwampMode("Swamp mode")); // into the swamp
-		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode")); // out of the swamp
-		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode")); // follow wall after swamp
+		Globals.logic.addMoveMode(new AfterSwampMode("After swamp mode", 5000)); // follow wall after swamp
+		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode"));
 		Globals.logic.addMoveMode(new SwingBridgeMode("Swing bridge mode"));
 		// TODO endboss mode
 
