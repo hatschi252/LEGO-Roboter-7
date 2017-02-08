@@ -21,8 +21,8 @@ public class AdvancedMazeMode extends MoveMode {
 	 private final static int ROTATION_ANGLE = 150; //180=90°
 	 private final static int BACKWARD_DISTANCE = 50;
 	 private final static int FORWARD_DISTANCE = 0;
-	 private final static int STANDARD_SPEED = 420;
-	 private final static int SLOW_SPEED = STANDARD_SPEED;
+	 private int STANDARD_SPEED = 420;
+	 private final int SLOW_SPEED = STANDARD_SPEED;
 
 	private final static float LINE_BRIGHTNESS = 0.2f;
 	private final static float WALL_MIN_DISTANCE = 0.1f;
@@ -36,6 +36,11 @@ public class AdvancedMazeMode extends MoveMode {
 	public AdvancedMazeMode(String description) {
 		super(description);
 	}
+	
+	public AdvancedMazeMode(String description, int speed) {
+        super(description);
+        this.STANDARD_SPEED = speed;
+    }
 
 	@Override
 	public void init() {
