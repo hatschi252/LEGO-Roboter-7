@@ -18,7 +18,7 @@ public class AdvancedMazeMode extends MoveMode {
 
 	// without 45° (only right angles) TODO: experimental values, does not work
 	// yet
-	 private final static int ROTATION_ANGLE = 150; //180=90°
+	 private final static int ROTATION_ANGLE = 90; //180=90°
 	 private final static int BACKWARD_DISTANCE = 50;
 	 private final static int FORWARD_DISTANCE = 0;
 	 private final static int STANDARD_SPEED = 420;
