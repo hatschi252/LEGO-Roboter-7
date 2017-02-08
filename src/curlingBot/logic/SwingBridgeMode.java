@@ -14,6 +14,7 @@ public class SwingBridgeMode implements IMoveMode {
 	private final int TIME_EXIT_THE_BRIDGE = 8000;
 	private final int TIME_TO_DRIVE_BLIND = 4500;
 	private final int SPEED_FOR_BLIND_DRIVE = 100;
+	private final float BRIGHTNESS_TRESH = 0.2f;
 	
 	private PController wallPC;
 	private PController bridgePC;
@@ -74,8 +75,11 @@ public class SwingBridgeMode implements IMoveMode {
             leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
             rightSpeed = wallPC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
-        } while (true);//timer.elapsed() < 10000);
+        } while (!hasFoundLine());//timer.elapsed() < 10000);
         //TODO endboss detection (maybe with gyro)
+	}
+	private boolean hasFoundLine() {
+	    return Globals.sensorBuffer.getLastMessurementColor() > 0.2f;
 	}
 
 }
