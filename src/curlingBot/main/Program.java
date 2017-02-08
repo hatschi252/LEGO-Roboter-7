@@ -81,7 +81,7 @@ public class Program {
         Globals.logic.addMoveMode(new LineFollowerMode("Line follower mode")); // go on with line
 		Globals.logic.addMoveMode(new SwampMode("Swamp mode")); // into the swamp
 		Globals.logic.addMoveMode(new AfterSwampMode("After swamp mode", 5000)); // follow wall after swamp
-		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode"));
+		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode", 200, 0.1f));
 		Globals.logic.addMoveMode(new SwingBridgeMode("Swing bridge mode"));
 		// TODO endboss mode
 
