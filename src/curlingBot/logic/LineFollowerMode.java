@@ -1,5 +1,7 @@
 package curlingBot.logic;
 
+import com.sun.xml.internal.org.jvnet.mimepull.MIMEConfig;
+
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import curlingBot.motorControl.PController;
@@ -14,7 +16,14 @@ public class LineFollowerMode implements IMoveMode {
 	private final int TURN_SPEED = 180;
 	private final int LOST_LINE_TIMEOUT = 600;
 	private final int SLEEP_TIME_AFTER_TURN = 200;
-	private final float LINE_SPEED  =100f;
+	private final float LINE_SPEED  = 100f;
+	
+
+	private final static float P_MIDPOINT = 0.5f;
+	private final static float KP_VALUE = -0.8f;
+	private final static float DARK = 0;
+	private final static float BRIGHT = 0.3f;
+	
 
 	/**
 	 * After endo of line the robot is slightly turned right, this constant is
@@ -209,15 +218,11 @@ public class LineFollowerMode implements IMoveMode {
 		Globals.motorControl.getLeftMotor().setSpeed(STANDARD_SPEED);
 		Globals.motorControl.getRightMotor().setSpeed(STANDARD_SPEED);
 
-		float kp = -0.8f;
-		float low = 0.00f; // background
-		float high = 0.3f; // line
-		float midPoint = 0.5f;
 
-		this.pController = new PController(kp, LINE_SPEED, low, high, midPoint);
+		this.pController = new PController(KP_VALUE, LINE_SPEED, DARK, BRIGHT, P_MIDPOINT);
 		while (currentSearchMode != SearchMode.END) {
 			float sensorInput = Globals.sensorBuffer.getLastMessurementColor();
-			if (sensorInput > (low + high) / 2) {
+			if (sensorInput > (DARK + BRIGHT) / 2) {
 				stopwatch.reset();
 			}
 			// Output.put(stopwatch.elapsed()+ ", " + sensorInput);
