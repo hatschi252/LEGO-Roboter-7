@@ -102,7 +102,7 @@ public class LineFollowerMode extends MoveMode {
 				currentSearchMode = SearchMode.MOVE_FORWARD;
 				Output.beep();
 				Globals.sleep(SLEEP_TIME_AFTER_TURN);
-				Output.put("mode: " + currentSearchMode);
+//				Output.put("mode: " + currentSearchMode);
 			}
 			break;
 		case MOVE_FORWARD:
@@ -126,7 +126,7 @@ public class LineFollowerMode extends MoveMode {
 				currentSearchMode = SearchMode.LOOK_RIGHT;
 				Output.beep();
 				Globals.sleep(SLEEP_TIME_AFTER_TURN);
-				Output.put("mode: " + currentSearchMode);
+//				Output.put("mode: " + currentSearchMode);
 			}
 			break;
 		case LOOK_LEFT:
@@ -152,7 +152,7 @@ public class LineFollowerMode extends MoveMode {
 				currentSearchMode = SearchMode.LOOK_FRONT;
 				Output.beep();
 				Globals.sleep(SLEEP_TIME_AFTER_TURN);
-				Output.put("mode: " + currentSearchMode);
+//				Output.put("mode: " + currentSearchMode);
 			}
 			break;
 		case LOOK_RIGHT:
@@ -178,7 +178,7 @@ public class LineFollowerMode extends MoveMode {
 				currentSearchMode = SearchMode.LOOK_LEFT;
 				Output.beep();
 				Globals.sleep(SLEEP_TIME_AFTER_TURN);
-				Output.put("mode: " + currentSearchMode);
+//				Output.put("mode: " + currentSearchMode);
 			}
 			break;
 		case LOOK_FRONT:
@@ -204,7 +204,7 @@ public class LineFollowerMode extends MoveMode {
 				currentSearchMode = SearchMode.END;
 				Output.beep();
 				Globals.sleep(SLEEP_TIME_AFTER_TURN);
-				Output.put("mode: " + currentSearchMode);
+//				Output.put("mode: " + currentSearchMode);
 			}
 			break;
 		default:

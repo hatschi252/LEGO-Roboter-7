@@ -31,7 +31,7 @@ public final class MotorControl extends Thread {
 		// TODO: take care that the ultrasonic sensor is moved up for
 		// initialization
 		isUltrasonicUp = true;
-		Output.put("Current max speed: " + leftMotor.getMaxSpeed());
+		Output.put("vMax: " + leftMotor.getMaxSpeed());
 
 		desiredMoveState = new MoveState(0, 0);
 	}
