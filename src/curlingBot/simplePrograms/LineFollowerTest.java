@@ -1,7 +1,7 @@
 package curlingBot.simplePrograms;
+
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
-import lejos.utility.Delay;
 import curlingBot.main.ExitThread;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -9,7 +9,7 @@ import lejos.hardware.port.SensorPort;
 
 public class LineFollowerTest {
 	
-	private static final double targetValue = (0.55+0.3)/3;
+//	private static final double targetValue = (0.55+0.3)/3;
 	
 	final static int STANDARD_SPEED = 240;
 	final static float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
@@ -31,7 +31,7 @@ public class LineFollowerTest {
 		startMoving(m_left, m_right);
         
 		int circleCount = 0; // index for the cyclic array
-		float speedCorrection = STANDARD_SPEED / 2; //m_left.getMaxSpeed()/10;
+//		float speedCorrection = STANDARD_SPEED / 2; //m_left.getMaxSpeed()/10;
 		
 		LineFollowControllSystemTest pController = new LineFollowControllSystemTest(0.1f);
 		for (;;) {

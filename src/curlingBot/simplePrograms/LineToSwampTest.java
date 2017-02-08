@@ -27,12 +27,12 @@ public class LineToSwampTest {
 		Globals.logic = Logic.getInstance();
 		//Add the moveModes in the order they are appearing in the parkour
 		//Globals.logic.addMoveMode(new WallFollowerMode());
-		Globals.logic.addMoveMode(new LineFollowerMode());
-		Globals.logic.addMoveMode(new SwampMode()); // into the swamp
-		Globals.logic.addMoveMode(new AdvancedMazeMode()); // out of the swamp
-		Globals.logic.addMoveMode(new AdvancedMazeMode()); // follow wall after swamp
-		Globals.logic.addMoveMode(new EndMode());
+		Globals.logic.addMoveMode(new LineFollowerMode(""));
+		Globals.logic.addMoveMode(new SwampMode("")); // into the swamp
+		Globals.logic.addMoveMode(new AdvancedMazeMode("")); // out of the swamp
+		Globals.logic.addMoveMode(new AdvancedMazeMode("")); // follow wall after swamp
+		Globals.logic.addMoveMode(new EndMode(""));
 		
-		Globals.logic.start();		
+		Globals.logic.restart(0);		
 	}
 }

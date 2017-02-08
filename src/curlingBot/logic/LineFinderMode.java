@@ -4,7 +4,7 @@ import curlingBot.main.Globals;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
-public class LineFinderMode implements IMoveMode {
+public class LineFinderMode extends MoveMode {
     public static final int SEESAW_SPEED = 500;
     public static final int SEESAW_STEER = 0;
     private final float BRIGHTNESS_THRESHHOLD = 0.2f;
@@ -26,7 +26,8 @@ public class LineFinderMode implements IMoveMode {
      * @param timeoutMilliSeconds the robot stops after the time (timeoutMilliSeconds) runs out (or it found a line). 
      * (-1 for infinite time)
      */
-    public LineFinderMode(int vLeft, int vRight, int driveForwardDelay, int timeoutMilliSeconds) {
+    public LineFinderMode(String description, int vLeft, int vRight, int driveForwardDelay, int timeoutMilliSeconds) {
+    	super(description);
         this.leftSpeed = vLeft;
         this.rightSpeed = vRight;
         this.driveForwardDelay = driveForwardDelay;

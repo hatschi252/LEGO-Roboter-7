@@ -3,10 +3,13 @@ package curlingBot.logic;
 import curlingBot.main.Globals;
 import lejos.utility.Delay;
 
-public class LineFinderAfterMaze implements IMoveMode {
-
-    private final int STANDARD_SPEED = 100;
+public class LineFinderAfterMaze extends MoveMode {
+	private final int STANDARD_SPEED = 100;
     private final float BRIGHTNESS_THRESHHOLD = 0.2f;
+
+    protected LineFinderAfterMaze(String description) {
+		super(description);
+	}
 
     @Override
     public void init() {

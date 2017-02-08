@@ -26,9 +26,9 @@ public class WallFollowerModeTest {
 
 		Globals.logic = Logic.getInstance();
 		// Add the moveModes in the order they are appearing in the parkour
-		Globals.logic.addMoveMode(new AdvancedMazeMode());
-		Globals.logic.addMoveMode(new EndMode());
+		Globals.logic.addMoveMode(new AdvancedMazeMode(""));
+		Globals.logic.addMoveMode(new EndMode(""));
 
-		Globals.logic.start();		
+		Globals.logic.restart(0);		
 	}
 }

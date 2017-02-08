@@ -2,7 +2,11 @@ package curlingBot.logic;
 
 import curlingBot.main.Output;
 
-public class EndMode implements IMoveMode {
+public class EndMode extends MoveMode {
+
+	public EndMode(String description) {
+		super(description);
+	}
 
 	@Override
 	public void init() {

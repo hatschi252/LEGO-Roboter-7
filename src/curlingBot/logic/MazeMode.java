@@ -4,7 +4,7 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.utility.Delay;
 
-public class MazeMode implements IMoveMode {
+public class MazeMode extends MoveMode {
 	private final static int ROTATION_DELAY = 750;
 	private final static int BACKWARD_DELAY = 200;
 	private final static int STANDARD_SPEED = 240;
@@ -14,10 +14,12 @@ public class MazeMode implements IMoveMode {
 	private final static float WALL_ACCEPTABLE_DISTANCE = 0.15f;
 	private final static int SLEEP_TIME = 50;
 	
+	protected MazeMode(String description) {
+		super(description);
+	}
 
 	@Override
 	public void init() {
-		Output.put("WallFollowerMode");
 		Globals.sensorBuffer.setGyroSensorActive(false);
 		Globals.sensorBuffer.setUltraSonicSensorActive(true);
 		Globals.sensorBuffer.setTouchSensorActive(true);

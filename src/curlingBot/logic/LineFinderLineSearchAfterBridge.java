@@ -4,13 +4,17 @@ import curlingBot.main.Globals;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
-public class LineFinderLineSearchAfterBridge implements IMoveMode{
+public class LineFinderLineSearchAfterBridge extends MoveMode {
 
-    private final int TURN_SPEED = 150;
+	private final int TURN_SPEED = 150;
     private final int DURATION_TURN = 1500;
     private final float BRIGHTNESS_THRESHHOLD = 0.2f;
     private final int TIME_MOVE_FORWARD_BLIND = 750;
     private final int SPEED_BLIND_DRIVE = 150;
+
+    public LineFinderLineSearchAfterBridge(String description) {
+		super(description);
+	}
     
     @Override
     public void init() {

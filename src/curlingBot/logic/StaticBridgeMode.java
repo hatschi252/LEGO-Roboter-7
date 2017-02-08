@@ -4,15 +4,19 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.utility.Delay;
 
-public class StaticBridgeMode implements IMoveMode {
+public class StaticBridgeMode extends MoveMode {
 
-    private final int SPEED = 100;
+	private final int SPEED = 100;
     private final float CORRECTION_FACTOR_TURN_RIGHT = 0.6f; // must be between
                                                              // 0 and 1
     private final float CORRECTION_FACTOR_TURN_LEFT = 0.7f; // must be between 0
                                                             // and 1
     private final int DELAY_TO_GET_ON_BRIDGE = 4000;
     private final float BRIGHTNESS_THRESHHOLD = 0.2f;
+
+    public StaticBridgeMode(String description) {
+		super(description);
+	}
     
     @Override
     public void init() {

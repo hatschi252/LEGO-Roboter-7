@@ -4,9 +4,14 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.robotics.RegulatedMotor;
 
-public class SeesawMode implements IMoveMode {
+public class SeesawMode extends MoveMode {
+
 	private final static int DISTANCE = 2 * 360;
 	private final static int SPEED = 500;
+	
+	public SeesawMode(String description) {
+		super(description);
+	}
 
 	@Override
 	public void init() {

@@ -8,7 +8,7 @@ import curlingBot.motorControl.PController;
 import curlingBot.sensors.SensorBuffer;
 import lejos.utility.Stopwatch;
 
-public class SwingBridgeMode implements IMoveMode {
+public class SwingBridgeMode extends MoveMode {
 
 	private final int TIME_TO_CROSS_BRIDGE = 16000; // TODO find out time;
 	private final int TIME_EXIT_THE_BRIDGE = 8000;
@@ -19,6 +19,10 @@ public class SwingBridgeMode implements IMoveMode {
 	private PController bridgePC;
 	private SensorBuffer sensorBuffer;
 	private MotorControl motorControl;
+
+	public SwingBridgeMode(String description) {
+		super(description);
+	}
 
 	@Override
 	public void init() {

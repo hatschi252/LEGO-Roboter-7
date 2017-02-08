@@ -1,15 +1,13 @@
 package curlingBot.logic;
 
-import com.sun.xml.internal.org.jvnet.mimepull.MIMEConfig;
-
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import curlingBot.motorControl.PController;
 import lejos.robotics.RegulatedMotor;
-import lejos.robotics.RegulatedMotorListener;
 import lejos.utility.Stopwatch;
 
-public class LineFollowerMode implements IMoveMode {
+public class LineFollowerMode extends MoveMode {
+
 	private final int STANDARD_ACC = 4000; // TODO test acc s
 	private final int TURN_ACC = 2000;
 	private final int STANDARD_SPEED = 240;
@@ -44,10 +42,14 @@ public class LineFollowerMode implements IMoveMode {
 	private enum SearchMode {
 		ON_LINE, LOOK_LEFT, LOOK_RIGHT, LOOK_FRONT, MOVE_FORWARD, TURN_CORRECTION, END;
 	}
+	
+	public LineFollowerMode(String description) {
+		super(description);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void init() {
-		Output.put("LineFollowerMode");
 		Globals.sensorBuffer.setGyroSensorActive(true); // for see saw
 		Globals.sensorBuffer.setUltraSonicSensorActive(false);
 		Globals.sensorBuffer.setTouchSensorActive(false); // TODO check

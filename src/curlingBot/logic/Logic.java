@@ -5,51 +5,85 @@ import java.util.List;
 
 import curlingBot.main.Output;
 
-public class Logic extends Thread {
-	private static Logic logicThreadInstance;
-	
+public class Logic implements Runnable {
+	private static Logic logicInstance;
+
 	/**
-	 * The list of moveModes. The order of the elements in the parkour is the same
-	 * as the order of the corresponding modes in this list.
+	 * The list of moveModes. The order of the elements in the parkour is the
+	 * same as the order of the corresponding modes in this list.
 	 */
-	private List<IMoveMode> moveModeList;
-	private IMoveMode currentMoveMode;
-	
+	private List<MoveMode> moveModeList;
+	private MoveMode currentMoveMode;
+	private int startIndex;
+	private Thread logicThread;
+
 	private Logic() {
-		moveModeList = new ArrayList<IMoveMode>();
+		startIndex = 0;
+		moveModeList = new ArrayList<MoveMode>();
 	}
-	
+
 	/**
 	 * Returns the only instance of Logic.
+	 * 
 	 * @return
 	 */
 	public static Logic getInstance() {
-		if (logicThreadInstance == null) {
-			logicThreadInstance = new Logic();
+		if (logicInstance == null) {
+			logicInstance = new Logic();
 		}
-		return logicThreadInstance;
+		return logicInstance;
 	}
 	
+	public int getModeCount() {
+		return moveModeList.size();
+	}
+	
+	public String getDescrByIndex(int index) {
+		return moveModeList.get(index).getDescription();
+	}
+
+	public void restart(int startIndex) {
+		this.startIndex = startIndex;
+		if (logicThread != null) {
+			logicThread.interrupt();
+			//TODO REMOVE
+			System.out.println("logic interruped");
+		}
+		logicThread = new Thread(this);
+		logicThread.start();
+		//TODO REMOVE
+		System.out.println("logic started");
+	}
+
 	@Override
 	public void run() {
-		//Run through the parkour
-		for (int i = 0; i < moveModeList.size(); i++) {
-			Output.put("Next mode started!");
-			Output.beep();
-			currentMoveMode = moveModeList.get(i);
-			currentMoveMode.init();
-			currentMoveMode.perform();
+		//TODO REMOVE
+		try {
+			// Run through the parkour
+			for (int i = startIndex; i < moveModeList.size(); i++) {
+				currentMoveMode = moveModeList.get(i);
+				Output.put("Starting: " + currentMoveMode.getDescription());
+				Output.beep();
+				currentMoveMode.init();
+				System.out.println("starting perform");
+				currentMoveMode.perform();
+				System.out.println("perform ended");
+			}
+			// Finished?
+		} catch (Exception ex) {
+			Output.handleError("Logic got exception: " + ex.getMessage());
 		}
-		//Finished?
 	}
-	
+
 	/**
-	 * Adds a moveMode to the moveMode list. The next moveMode to be performed is taken
-	 * from the beginning of the list (index 0). The given modeMode is added at the end
-	 * of the list.
-	 * @param moveMode the moveMode to be added
+	 * Adds a moveMode to the moveMode list. The next moveMode to be performed
+	 * is taken from the beginning of the list (index 0). The given modeMode is
+	 * added at the end of the list.
+	 * 
+	 * @param moveMode
+	 *            the moveMode to be added
 	 */
-	public void addMoveMode(IMoveMode moveMode) {
+	public void addMoveMode(MoveMode moveMode) {
 		moveModeList.add(moveMode);
 	}
 }

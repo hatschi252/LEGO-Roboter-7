@@ -3,8 +3,13 @@ package curlingBot.logic;
 import curlingBot.main.Globals;
 import curlingBot.main.Output;
 
-public class SwampMode implements IMoveMode {
+public class SwampMode extends MoveMode {
+
 	private final int TACHO_LIMIT = 360 * 2;
+	
+	public SwampMode(String description) {
+		super(description);
+	}
 
 	@Override
 	public void init() {

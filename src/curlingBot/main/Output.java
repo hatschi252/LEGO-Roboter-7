@@ -13,6 +13,10 @@ public final class Output {
 		System.out.println("ERR: " + ex.getMessage());
 	}
 	
+	public static void handleError(String message) {
+		System.out.println("ERR: " + message);
+	}
+	
 	public static void finished() {
 		Sound.setVolume(100);
 		Sound.beepSequenceUp();
