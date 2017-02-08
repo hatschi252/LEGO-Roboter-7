@@ -4,13 +4,14 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 
 public class SwampMode implements IMoveMode {
+	private final int TACHO_LIMIT = 360 * 2;
 
 	@Override
 	public void init() {
 		Output.put("SwampMode");
 		Globals.sensorBuffer.setGyroSensorActive(false);
-		Globals.sensorBuffer.setUltraSonicSensorActive(false);
-		Globals.sensorBuffer.setTouchSensorActive(false);
+		Globals.sensorBuffer.setUltraSonicSensorActive(true);
+		Globals.sensorBuffer.setTouchSensorActive(true);
 		Globals.sensorBuffer.setColorSensorActive(false);
 
 		Globals.motorControl.getLeftMotor().resetTachoCount();
@@ -38,13 +39,17 @@ public class SwampMode implements IMoveMode {
 		Globals.motorControl.getRightMotor().setSpeed(desiredSpeed);
 		Globals.motorControl.getLeftMotor().forward();
 		Globals.motorControl.getRightMotor().forward();
+		Globals.motorControl.getLeftMotor().resetTachoCount();
+		Globals.motorControl.getRightMotor().resetTachoCount();
 		// Globals.motorControl.getLeftMotor().endSynchronization();
 		long lastTimeMillis = System.currentTimeMillis();
-		while (!Globals.sensorBuffer.getLastMeasurementTouch()) {
+		int totalTacho = 0;
+		while (!Globals.sensorBuffer.getLastMeasurementTouch() && totalTacho < TACHO_LIMIT) {
 			Globals.sleep(200);
 			float timeStep = (System.currentTimeMillis() - lastTimeMillis) / 1000f;
 			lastTimeMillis = System.currentTimeMillis();
 			float tachoRightStep = Globals.motorControl.getRightMotor().getTachoCount();
+			totalTacho += tachoRightStep;
 			float tachoLeftStep = Globals.motorControl.getLeftMotor().getTachoCount();
 			Globals.motorControl.getLeftMotor().resetTachoCount();
 			Globals.motorControl.getRightMotor().resetTachoCount();
@@ -57,6 +62,10 @@ public class SwampMode implements IMoveMode {
 			Globals.motorControl.getLeftMotor().forward();
 			Globals.motorControl.getRightMotor().forward();
 		}
+		Output.beep();
+		
+		//Globals.motorControl.getLeftMotor().stop();
+		//Globals.motorControl.getRightMotor().stop();
 	}
 
 }
