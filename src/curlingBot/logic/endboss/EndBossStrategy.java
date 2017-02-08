@@ -1,8 +1,8 @@
 package curlingBot.logic.endboss;
 
-import curlingBot.logic.IMoveMode;
-
-public interface EndBossStrategy extends IMoveMode{
+public interface EndBossStrategy {
+	public void init();
+	public void perform();
 	
 	// no methods needed
 
