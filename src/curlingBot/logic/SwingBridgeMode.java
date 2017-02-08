@@ -6,6 +6,7 @@ import curlingBot.motorControl.MotorControl;
 import curlingBot.motorControl.MoveState;
 import curlingBot.motorControl.PController;
 import curlingBot.sensors.SensorBuffer;
+import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
 public class SwingBridgeMode extends MoveMode {
@@ -53,12 +54,14 @@ public class SwingBridgeMode extends MoveMode {
 	        //Output.put("us: " + lastSensorValue);
 		} while (/*!Float.isInfinite(lastSensorValue) || */!(lastSensorValue > 0.17f));
 		Stopwatch timer = new Stopwatch();
-		motorControl.setLeftAndRightSpeed(this.SPEED_FOR_BLIND_DRIVE * 1.35f, this.SPEED_FOR_BLIND_DRIVE);
+		motorControl.setLeftAndRightSpeed(this.SPEED_FOR_BLIND_DRIVE * 1.27f, this.SPEED_FOR_BLIND_DRIVE);
 		while (timer.elapsed() < this.TIME_TO_DRIVE_BLIND) {
 		    //do nothing (robot drives forward)
 		}
 		timer.reset();    
 		motorControl.moveUltrasonicDown(); //we should be on the bridge
+		Delay.msDelay(100);
+		//Delay.msDelay(20);
 		
 		while (timer.elapsed() < TIME_TO_CROSS_BRIDGE) { //cross the bridge
 			lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
@@ -80,10 +83,10 @@ public class SwingBridgeMode extends MoveMode {
             rightSpeed = wallPC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
         } while (!hasFoundLine());//timer.elapsed() < 10000);
-        Globals.motorControl.setLeftAndRightSpeed(0, 0);
+        Globals.motorControl.setLeftAndRightSpeed(10, 10);
 	}
 	private boolean hasFoundLine() {
-	    return Globals.sensorBuffer.getLastMessurementColor() > 0.2f;
+	    return Globals.sensorBuffer.getLastMessurementColor() > 0.35f;
 	}
 
 }

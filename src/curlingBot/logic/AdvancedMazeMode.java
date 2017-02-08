@@ -25,7 +25,7 @@ public class AdvancedMazeMode extends MoveMode {
 	 private final int SLOW_SPEED = STANDARD_SPEED;
 
 	private final static float LINE_BRIGHTNESS = 0.2f;
-	private final static float WALL_MIN_DISTANCE = 0.1f;
+	private float WALL_MIN_DISTANCE = 0.1f;
 	private float WALL_MAX_DISTANCE = 0.15f;
 	private final static float P_MIDPOINT = 0.3f;
 	private final static float KP_VALUE = -0.3f;
@@ -37,10 +37,11 @@ public class AdvancedMazeMode extends MoveMode {
 		super(description);
 	}
 	
-	public AdvancedMazeMode(String description, int speed, float maxWallDistance) {
+	public AdvancedMazeMode(String description, int speed, float maxWallDistance, float minWallDistance) {
         super(description);
         this.STANDARD_SPEED = speed;
         this.WALL_MAX_DISTANCE = maxWallDistance;
+        this.WALL_MIN_DISTANCE = minWallDistance;
     }
 
 	@Override
