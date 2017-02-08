@@ -77,12 +77,12 @@ public class SwingBridgeMode extends MoveMode {
         }
         // follow the wall
         timer.reset();
-        do {
+       /* do {
             lastSensorValue = sensorBuffer.getLastMessurementUltraSonic();
             leftSpeed = wallPC.getSpeedLeft(lastSensorValue);
             rightSpeed = wallPC.getSpeedRight(lastSensorValue);
             motorControl.setLeftAndRightSpeed(leftSpeed, rightSpeed);
-        } while (!hasFoundLine());//timer.elapsed() < 10000);
+        } while (!hasFoundLine());//timer.elapsed() < 10000);*/
         Globals.motorControl.setLeftAndRightSpeed(10, 10);
 	}
 	private boolean hasFoundLine() {

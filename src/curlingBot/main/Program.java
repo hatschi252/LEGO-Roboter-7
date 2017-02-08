@@ -2,6 +2,7 @@ package curlingBot.main;
 
 import curlingBot.logic.AdvancedMazeMode;
 import curlingBot.logic.AfterSwampMode;
+import curlingBot.logic.EndMode;
 import curlingBot.logic.LineFinderLineSearchAfterBridge;
 import curlingBot.logic.LineFinderMode;
 import curlingBot.logic.LineFollowerMode;
@@ -84,7 +85,7 @@ public class Program {
 		Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode", 200, 0.1f, 0.05f));
 		Globals.logic.addMoveMode(new SwingBridgeMode("Swing bridge mode"));
 	    Globals.logic.addMoveMode(new AdvancedMazeMode("Advanced maze mode", 200, 0.1f, 0.05f));
-		// TODO endboss mode
+		Globals.logic.addMoveMode(new EndMode("Boss"));
 
 		int startIndex = getStartIndex();
 		
