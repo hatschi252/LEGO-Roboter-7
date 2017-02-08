@@ -29,8 +29,8 @@ public class Program {
 		Globals.logic = Logic.getInstance();
 		// Add the moveModes in the order they are appearing in the parkour
 
-		Globals.logic.addMoveMode(new LineFinderMode(100, 90, 750, -1));
 		Globals.logic.addMoveMode(new AdvancedMazeMode());
+		Globals.logic.addMoveMode(new LineFinderMode(100, 90, 750, -1));
 		Globals.logic.addMoveMode(new LineFollowerMode());
 		Globals.logic.addMoveMode(new StaticBridgeMode());
 		//Globals.logic.addMoveMode(new LineFinderMode(80, 100, 500, -1));
