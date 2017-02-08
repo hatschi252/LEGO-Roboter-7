@@ -82,7 +82,7 @@ public class MazeMode extends MoveMode {
 
 	private boolean hasLineDetected(){
 		float currentBrightness = Globals.sensorBuffer.getLastMessurementColor();
-		System.out.println("color: " + currentBrightness);
+		Output.put("Color: " + currentBrightness);
 		return (currentBrightness > LINE_BRIGHTNESS);
 	}
 }

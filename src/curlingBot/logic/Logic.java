@@ -46,18 +46,13 @@ public class Logic implements Runnable {
 		this.startIndex = startIndex;
 		if (logicThread != null) {
 			logicThread.interrupt();
-			//TODO REMOVE
-			System.out.println("logic interruped");
 		}
 		logicThread = new Thread(this);
 		logicThread.start();
-		//TODO REMOVE
-		System.out.println("logic started");
 	}
 
 	@Override
 	public void run() {
-		//TODO REMOVE
 		try {
 			// Run through the parkour
 			for (int i = startIndex; i < moveModeList.size(); i++) {
@@ -65,9 +60,7 @@ public class Logic implements Runnable {
 				Output.put("Starting: " + currentMoveMode.getDescription());
 				Output.beep();
 				currentMoveMode.init();
-				System.out.println("starting perform");
 				currentMoveMode.perform();
-				System.out.println("perform ended");
 			}
 			// Finished?
 		} catch (Exception ex) {

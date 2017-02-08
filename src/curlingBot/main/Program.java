@@ -1,8 +1,6 @@
 package curlingBot.main;
 
 import curlingBot.logic.AdvancedMazeMode;
-import curlingBot.logic.EndMode;
-import curlingBot.logic.LineFinderAfterMaze;
 import curlingBot.logic.LineFinderLineSearchAfterBridge;
 import curlingBot.logic.LineFinderMode;
 import curlingBot.logic.LineFollowerMode;
@@ -12,8 +10,45 @@ import curlingBot.logic.SwampMode;
 import curlingBot.logic.SwingBridgeMode;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.sensors.SensorBuffer;
+import lejos.hardware.Button;
+import lejos.hardware.lcd.LCD;
 
 public class Program {
+	public static int getStartIndex() {
+		int key = 0;
+		int startIndex = 0;
+		int modeCount = Globals.logic.getModeCount();
+
+		// When enter is pressed again, we start logic with selected
+		// index
+		outer: while (true) {
+			LCD.clear();
+			LCD.drawString("Start index: " + startIndex, 0, 0);
+			LCD.drawString(Globals.logic.getDescrByIndex(startIndex), 0, 1);
+			key = Button.waitForAnyPress();
+			switch (key) {
+			case Button.ID_ENTER:
+				break outer;
+			case Button.ID_LEFT:
+			case Button.ID_UP:
+				startIndex = (startIndex + 1) % modeCount;
+				break;
+			case Button.ID_RIGHT:
+			case Button.ID_DOWN:
+				startIndex = (startIndex + modeCount - 1) % modeCount;
+				break;
+			case Button.ID_ESCAPE:
+				System.exit(0);
+				break;
+			default:
+				break;
+			}
+		}
+		LCD.clear();
+		return startIndex;
+	}
+	
+	
 	public static void main(String[] args) {
 		Output.put("Launching program");
 		// Start exit thread first. If something goes wrong we can still shut
@@ -49,6 +84,8 @@ public class Program {
 		Globals.logic.addMoveMode(new SwingBridgeMode("Swing bridge mode"));
 		// TODO endboss mode
 
-		Globals.logic.restart(0);
+		int startIndex = getStartIndex();
+		
+		Globals.logic.restart(startIndex);
 	}
 }
