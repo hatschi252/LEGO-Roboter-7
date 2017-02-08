@@ -1,15 +1,20 @@
 package curlingBot.logic;
 
 import curlingBot.logic.endboss.EndBossStrategy;
+import curlingBot.logic.endboss.Random;
 import curlingBot.main.Output;
 
 public class EndMode extends MoveMode {
 	
 	private EndBossStrategy strat;
 
-	public EndMode(String description, EndBossStrategy strat) {
-		this.strat = strat;
+	public EndMode(String description) {
 		super(description);
+		this.strat = new Random();
+	}
+	public EndMode(String description, EndBossStrategy strat) {
+		super(description);
+		this.strat = strat;
 	}
 
 	@Override
