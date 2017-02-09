@@ -10,19 +10,19 @@ public class AdvancedMazeMode extends MoveMode {
 	private final static int STANDARD_ACC = 4000;
 
 	// with 45°
-//	private final static int ROTATION_ANGLE = 90; // 180=90°
-//	private final static int BACKWARD_DISTANCE = 70;
-//	private final static int FORWARD_DISTANCE = 130;
-//	private final static int STANDARD_SPEED = 420;
-//	private final static int SLOW_SPEED = 220;
+	// private final static int ROTATION_ANGLE = 90; // 180=90°
+	// private final static int BACKWARD_DISTANCE = 70;
+	// private final static int FORWARD_DISTANCE = 130;
+	// private final static int STANDARD_SPEED = 420;
+	// private final static int SLOW_SPEED = 220;
 
 	// without 45° (only right angles) TODO: experimental values, does not work
 	// yet
-	 private final static int ROTATION_ANGLE = 90; //180=90°
-	 private final static int BACKWARD_DISTANCE = 50;
-	 private final static int FORWARD_DISTANCE = 0;
-	 private int STANDARD_SPEED = 420;
-	 private final int SLOW_SPEED = STANDARD_SPEED;
+	private final static int ROTATION_ANGLE = 90; // 180=90°
+	private final static int BACKWARD_DISTANCE = 50;
+	private final static int FORWARD_DISTANCE = 0;
+	private int STANDARD_SPEED = 420;
+	private final int SLOW_SPEED = STANDARD_SPEED;
 
 	private final static float LINE_BRIGHTNESS = 0.2f;
 	private float WALL_MIN_DISTANCE = 0.1f;
@@ -32,17 +32,17 @@ public class AdvancedMazeMode extends MoveMode {
 	private final static int SLEEP_TIME = 20;
 
 	private PController pController;
-	
+
 	public AdvancedMazeMode(String description) {
 		super(description);
 	}
-	
+
 	public AdvancedMazeMode(String description, int speed, float maxWallDistance, float minWallDistance) {
-        super(description);
-        this.STANDARD_SPEED = speed;
-        this.WALL_MAX_DISTANCE = maxWallDistance;
-        this.WALL_MIN_DISTANCE = minWallDistance;
-    }
+		super(description);
+		this.STANDARD_SPEED = speed;
+		this.WALL_MAX_DISTANCE = maxWallDistance;
+		this.WALL_MIN_DISTANCE = minWallDistance;
+	}
 
 	@Override
 	public void init() {
@@ -61,7 +61,8 @@ public class AdvancedMazeMode extends MoveMode {
 				followWall(Globals.sensorBuffer.getLastMessurementUltraSonic());
 				Globals.sleep(SLEEP_TIME);
 			}
-			if (hasLineDetected()) break;
+			if (hasLineDetected())
+				break;
 			rotate();
 		}
 		// end of maze, TODO: move a few cm straight, to overcome the detected
@@ -115,7 +116,7 @@ public class AdvancedMazeMode extends MoveMode {
 
 	private boolean hasLineDetected() {
 		float currentBrightness = Globals.sensorBuffer.getLastMessurementColor();
-		//Output.put("color: " + currentBrightness);
+		// Output.put("color: " + currentBrightness);
 		return (currentBrightness > LINE_BRIGHTNESS);
 	}
 
