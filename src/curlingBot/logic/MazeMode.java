@@ -4,6 +4,11 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.utility.Delay;
 
+/**
+ * MoveMode that drives slowly through a maze. It 
+ * uses a somple if then else controller.
+ * 
+ */
 public class MazeMode extends MoveMode {
 	private final static int ROTATION_DELAY = 750;
 	private final static int BACKWARD_DELAY = 200;

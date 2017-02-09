@@ -4,6 +4,12 @@ import curlingBot.main.Globals;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
+/**
+ * This endboss strategy is randomized. The robot drives a random 
+ * time a random turn and random speed. When the robot drives against 
+ * an obstacle it drives backward for a short period of time.
+ * 
+ */
 public class Random implements EndBossStrategy {
 
 	private final float BRIGHTNESS_THRESH = 0.2f;
@@ -11,7 +17,7 @@ public class Random implements EndBossStrategy {
 	private final int DRIVE_BACKWARD_DELAY = 1000;
 	private final int STANDARD_SPEED = 700;
 	private final int MIN_TIME = 1500;
-	private final int TIMEINTERVALL = 4000;
+	private final int TIMEINTERVALL = 2000;
 
 	@Override
 	public void init() {

@@ -8,7 +8,13 @@ import curlingBot.motorControl.PController;
 import curlingBot.sensors.SensorBuffer;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
-
+/**
+ * MoveMode to move over the swing bridge. robot drives along the wall.
+ * If the wall is to far away (robot is on the bridge) it toggles the 
+ * movable ultrasonic (us) sensor to detect the abyss. After a certain amount of the 
+ * robot toggles the us sensor (to move it up again). Finally the robot
+ * finds the wall again and finishes the obstacle.
+ */
 public class SwingBridgeMode extends MoveMode {
 
 	private final int TIME_TO_CROSS_BRIDGE = 16000; // TODO find out time;
