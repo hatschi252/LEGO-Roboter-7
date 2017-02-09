@@ -11,7 +11,7 @@ public class Random implements EndBossStrategy {
 	private final int DRIVE_BACKWARD_DELAY = 1000;
 	private final int STANDARD_SPEED = 700;
 	private final int MIN_TIME = 1500;
-	private final int TIMEINTERVALL = 4000;
+	private final int TIMEINTERVALL = 2000;
 
 	@Override
 	public void init() {
