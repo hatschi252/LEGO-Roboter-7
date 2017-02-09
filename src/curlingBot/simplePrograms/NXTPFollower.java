@@ -5,7 +5,6 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
-import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.SampleProvider;
 
 public class NXTPFollower {
@@ -15,6 +14,7 @@ public class NXTPFollower {
 	final static float HIGH = 0.45f; // line
 	final static float MIDPOINT = 0.5f;
 
+    @SuppressWarnings("resource")
 	public static void main(String[] args) {
 		new ExitThread().start();
 

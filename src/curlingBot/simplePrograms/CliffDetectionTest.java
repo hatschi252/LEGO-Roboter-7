@@ -14,10 +14,11 @@ public class CliffDetectionTest {
 
     private final static float CORRECTIOM_FACTOR_TO_RIGHT_TURN = 0.6f; // must be smaller than 1
     private final static float CORRECTIOM_FACTOR_TO_LEFT_TURN = 0.7f; // must be smaller than 1
-    
+
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         // setup motors
-        EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
+		EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
         EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.B);
         left.setSpeed(standardSpeedMotors);
         right.setSpeed(standardSpeedMotors);

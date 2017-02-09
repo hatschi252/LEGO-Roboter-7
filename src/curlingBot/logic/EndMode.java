@@ -2,7 +2,6 @@ package curlingBot.logic;
 
 import curlingBot.logic.endboss.EndBossStrategy;
 import curlingBot.logic.endboss.Random;
-import curlingBot.main.Output;
 
 public class EndMode extends MoveMode {
 	

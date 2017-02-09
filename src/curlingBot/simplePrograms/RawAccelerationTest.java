@@ -8,6 +8,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 public class RawAccelerationTest {
 
+    @SuppressWarnings("resource")
 	public static void main(String[] args) {
 
 		System.out.println("RawAccelerationTest");

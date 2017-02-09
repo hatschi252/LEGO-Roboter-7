@@ -32,7 +32,7 @@ public class AnotherFollower {
 		right.forward();
 
 		loop(buffer, left, right, detektor);
-
+		colorSensor.close();
 	}
 
 	private static void loop(float[] buffer, EV3LargeRegulatedMotor left, EV3LargeRegulatedMotor right,

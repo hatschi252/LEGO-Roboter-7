@@ -8,6 +8,7 @@ import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 public class TachoTest {
+    @SuppressWarnings("resource")
 	public static void main(String[] args) {
 		Output.put("RawAccelerationTest");
 

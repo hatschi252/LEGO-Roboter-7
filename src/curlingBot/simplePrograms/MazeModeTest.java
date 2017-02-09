@@ -3,7 +3,6 @@ package curlingBot.simplePrograms;
 import curlingBot.main.ExitThread;
 import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.motor.Motor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3TouchSensor;
@@ -18,6 +17,7 @@ public class MazeModeTest {
     static EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
     static EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.B);
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
 
         // setup ultrasonic sensor

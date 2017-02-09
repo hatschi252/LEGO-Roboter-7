@@ -11,9 +11,9 @@ import lejos.utility.Stopwatch;
 public class AlternativeLineFollower {
     private static final int STANDART_SPEED = 50;
     private static final float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
-    private static final int CORRECTION_SPEED = 70; //
-    private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;//
-    private static final int CURVE_DEGREE = 360 * 3 / 2;//
+//    private static final int CORRECTION_SPEED = 70; //
+//    private static final int MAX_ALLOWED_TIME_LINE_LOST = 1500;//
+//    private static final int CURVE_DEGREE = 360 * 3 / 2;//
     private static final int timeForSearch = 15500;
     // motor classes
     private static EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);

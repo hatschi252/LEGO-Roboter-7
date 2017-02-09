@@ -14,7 +14,8 @@ public class LineFollowerTest {
 	final static int STANDARD_SPEED = 240;
 	final static float TARGET_VALUE = (0.5f + 0.05f) / 2.0f;
 	
-	
+
+    @SuppressWarnings("resource")
 	public static void main(String[] args)
 	{
 	    // start exit Thread

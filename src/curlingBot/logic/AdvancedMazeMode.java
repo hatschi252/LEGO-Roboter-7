@@ -1,7 +1,6 @@
 package curlingBot.logic;
 
 import curlingBot.main.Globals;
-import curlingBot.main.Output;
 import curlingBot.motorControl.PController;
 import lejos.robotics.RegulatedMotor;
 

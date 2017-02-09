@@ -7,7 +7,6 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import curlingBot.motorControl.MotorControl;
 import curlingBot.motorControl.MoveState;
-import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.SampleProvider;

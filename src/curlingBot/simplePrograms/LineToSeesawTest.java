@@ -1,11 +1,9 @@
 package curlingBot.simplePrograms;
 
 import curlingBot.logic.EndMode;
-import curlingBot.logic.LineFinderAfterMaze;
 import curlingBot.logic.LineFollowerMode;
 import curlingBot.logic.Logic;
 import curlingBot.logic.SeesawMode;
-import curlingBot.logic.SwampMode;
 import curlingBot.main.ExitThread;
 import curlingBot.main.Globals;
 import curlingBot.main.Output;

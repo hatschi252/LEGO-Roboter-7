@@ -1,9 +1,7 @@
 package curlingBot.logic;
 
 import curlingBot.main.Globals;
-import curlingBot.main.Output;
 import curlingBot.motorControl.MotorControl;
-import curlingBot.motorControl.MoveState;
 import curlingBot.motorControl.PController;
 import curlingBot.sensors.SensorBuffer;
 import lejos.utility.Delay;
@@ -21,7 +19,7 @@ public class SwingBridgeMode extends MoveMode {
 	private final int TIME_EXIT_THE_BRIDGE = 8000;
 	private final int TIME_TO_DRIVE_BLIND = 4500;
 	private final int SPEED_FOR_BLIND_DRIVE = 100;
-	private final float BRIGHTNESS_TRESH = 0.2f;
+//	private final float BRIGHTNESS_TRESH = 0.2f;
 	
 	private PController wallPC;
 	private PController bridgePC;
@@ -91,8 +89,9 @@ public class SwingBridgeMode extends MoveMode {
         } while (!hasFoundLine());//timer.elapsed() < 10000);*/
         Globals.motorControl.setLeftAndRightSpeed(10, 10);
 	}
-	private boolean hasFoundLine() {
-	    return Globals.sensorBuffer.getLastMessurementColor() > 0.35f;
-	}
+	
+//	private boolean hasFoundLine() {
+//	    return Globals.sensorBuffer.getLastMessurementColor() > 0.35f;
+//	}
 
 }

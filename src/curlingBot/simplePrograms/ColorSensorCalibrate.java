@@ -12,13 +12,13 @@ import lejos.robotics.SampleProvider;
 
 public class ColorSensorCalibrate {
 
+    @SuppressWarnings("resource")
 	public static void main(String[] args) {
 		ExitThread exit = new ExitThread();
 		exit.start();
 
 		EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
 		SampleProvider detektor = colorSensor.getRedMode();
-		float[] buffer = new float[10];
 
 		EV3LargeRegulatedMotor left = new EV3LargeRegulatedMotor(MotorPort.A);
 		EV3LargeRegulatedMotor right = new EV3LargeRegulatedMotor(MotorPort.B);

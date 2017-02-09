@@ -1,6 +1,5 @@
 package curlingBot.motorControl;
 
-import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
@@ -12,13 +11,12 @@ public final class MotorControl extends Thread {
 	public static final Port MOTORPORT_RIGHT = MotorPort.B;
 	public static final Port MOTORPORT_ULTRASONIC = MotorPort.D;
 	private static final int ULTRASONIC_MOVE_ANGLE = 70;
-	private static final float ACC_FAC = 0.1f;
-	private static final int SLEEP_TIME = 30;
+//	private static final float ACC_FAC = 0.1f;
+//	private static final int SLEEP_TIME = 30;
 
 	private static MotorControl motorControlInstance;
 
 	private MoveState desiredMoveState;
-	private int currentMaximumAcc;
 	private EV3LargeRegulatedMotor leftMotor;
 	private EV3LargeRegulatedMotor rightMotor;
 	private EV3MediumRegulatedMotor ultrasonicMotor;
@@ -150,7 +148,6 @@ public final class MotorControl extends Thread {
 		leftMotor.setSpeed(moveState.getLeftVelocity());
 		rightMotor.setSpeed(moveState.getRightVelocity());
 		desiredMoveState = moveState;
-		currentMaximumAcc = maxAcc;
 	}
 	
 	/**

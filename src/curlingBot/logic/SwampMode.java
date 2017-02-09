@@ -9,7 +9,7 @@ public class SwampMode extends MoveMode {
 	private final int TACHO_LIMIT = 360 * 3;
 	private final static int STANDARD_ACC = 4000;
 
-	private final static float LINE_BRIGHTNESS = 0.2f;
+//	private final static float LINE_BRIGHTNESS = 0.2f;
 	private float WALL_MIN_DISTANCE = 0.1f;
 	private float WALL_MAX_DISTANCE = 0.15f;
 	private final static float P_MIDPOINT = 0.3f;
