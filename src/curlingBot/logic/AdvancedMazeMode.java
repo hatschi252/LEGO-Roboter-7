@@ -5,6 +5,11 @@ import curlingBot.main.Output;
 import curlingBot.motorControl.PController;
 import lejos.robotics.RegulatedMotor;
 
+/**
+ * A maze moveMode with a pController and collision detection.
+ * 
+ *
+ */
 public class AdvancedMazeMode extends MoveMode {
 
 	private final static int STANDARD_ACC = 4000;

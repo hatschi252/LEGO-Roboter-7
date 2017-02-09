@@ -3,7 +3,12 @@ package curlingBot.logic;
 import curlingBot.main.Globals;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
-
+/**
+ * Simple way to find the line after a obstacle if 
+ * the line only needs a turn (or a straight line) to be found.
+ * 
+ *
+ */
 public class LineFinderMode extends MoveMode {
     public static final int SEESAW_SPEED = 500;
     public static final int SEESAW_STEER = 0;

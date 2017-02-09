@@ -1,5 +1,9 @@
 package curlingBot.logic;
 
+/**
+ * This abstract class encapsulates the behavior of the robot.
+ * 
+ */
 public abstract class MoveMode {
 	private String description;
 	

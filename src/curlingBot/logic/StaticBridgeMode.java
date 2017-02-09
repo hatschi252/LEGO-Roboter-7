@@ -4,6 +4,12 @@ import curlingBot.main.Globals;
 import curlingBot.main.Output;
 import lejos.utility.Delay;
 
+/**
+ * MoveMode for the bridge. It uses a simple if then else 
+ * regulation after it drove on the bridge.
+ * 
+ * 
+ */
 public class StaticBridgeMode extends MoveMode {
 
 	private final int SPEED = 100;

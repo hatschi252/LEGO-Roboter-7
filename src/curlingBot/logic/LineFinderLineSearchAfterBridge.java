@@ -4,6 +4,12 @@ import curlingBot.main.Globals;
 import lejos.utility.Delay;
 import lejos.utility.Stopwatch;
 
+/**
+ * The robot has not always the same pose after the bridge. This 
+ * MoveMode searches for the line to follow.
+ * 
+ *
+ */
 public class LineFinderLineSearchAfterBridge extends MoveMode {
 
 	private final int TURN_SPEED = 150;
