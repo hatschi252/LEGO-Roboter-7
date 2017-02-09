@@ -5,6 +5,10 @@ import java.util.List;
 
 import curlingBot.main.Output;
 
+/**
+ * This singleton encapsulates the behavior of the robot.
+ * MoveModes can be added and executed.
+ */
 public class Logic implements Runnable {
 	private static Logic logicInstance;
 
